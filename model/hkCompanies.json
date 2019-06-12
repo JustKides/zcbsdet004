@@ -1,0 +1,17 @@
+[
+	{
+		"CompanyID": "HTI",
+		"CompanyName": "HUAWEI TECH. INVESTMENT CO., LIMITED",
+		"CompanyBpID": "FT_HK_0311"
+	},
+	{
+		"CompanyID": "HCT",
+		"CompanyName": "HUAWEI DEVICE (HONG KONG) CO., LIMITED",
+		"CompanyBpID": "FT_HK_1321"
+	},
+	{
+		"CompanyID": "HKINTL",
+		"CompanyName": "HUAWEI INTERNATIONAL CO., LIMITED",
+		"CompanyBpID": "FT_HK_1421"
+	}
+]

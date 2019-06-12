@@ -1,0 +1,296 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:sf="sap.ui.comp.smartfield"
+	xmlns:core="sap.ui.core">
+	<VBox class="sapUiSmallMargin">
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="4"
+			labelSpanM="12"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="0"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="3"
+			columnsL="3"
+			columnsM="3"
+			singleContainerFullSize="false" >
+			<f:content>
+				<core:Title text="" />
+				<Label text="{i18n>detailGeneralLabelBOENo}" wrapping="true" />
+				<Text text="{DocumentNo}" />
+				<Label text="{i18n>detailGeneralLabelExternalDocumentNo}" wrapping="true" />
+				<Text text="{ExternalDocumentNo}" />
+				<Label text="{i18n>detailGeneralLabelFulfillmentSource}" wrapping="true" />
+				<Text text="{FulFillmentSource}" />
+				<Label text="{i18n>detailGeneralLabelDeclarationEntityType}" wrapping="true" />
+				<ActionSelect
+					id="declarationEntityTypeSelect"
+					forceSelection="false"
+					selectedKey="{DeclarationEntityType}"
+					items="{
+						path: '/ZCBS_C_DetCodeList',
+						sorter: { path: 'Code2', descending: false },
+						filters: [
+							{ path : 'TrTy', operator : 'EQ', value1 : 'EXART'},
+							{ path : 'Code1', operator : 'EQ', value1 : 'ZCUCN'}
+						]
+					}">
+					<core:Item key="{Code2}" text="{Description}" />
+				</ActionSelect>
+				<Label text="{i18n>detailGeneralLabelDeclarationCompany}" wrapping="true" required="true" />
+				<ActionSelect
+					id="declarationCompanySelect"
+					forceSelection="false"
+					showSecondaryValues="true"
+					selectedKey="{CompanyBpID}"
+					change="onDeclarationCompanyChange">
+					<items>
+						<core:ListItem key="{ParNumber}" text="{ParName}" additionalText="{ParNumber}" />
+					</items>
+				</ActionSelect>
+				<Label text="{i18n>detailGeneralLabelTradeMode}" wrapping="true" />
+				<ActionSelect
+					id="tradeModeSelect"
+					forceSelection="false"
+					selectedKey="{TradeMode}"
+					items="{
+						path: '/ZCBS_C_DetCodeList',
+						sorter: { path: 'Code2', descending: false },
+						filters: [
+							{ path : 'TrTy', operator : 'EQ', value1 : 'DCSTA'},
+							{ path : 'Code1', operator : 'EQ', value1 : 'ZCUCN'}
+						]
+					}">
+					<core:Item key="{Code2}" text="{Description}" />
+				</ActionSelect>
+				<Label text="{i18n>detailGeneralLabelCompanyID}" wrapping="true" visible="{= ${Country} === 'HK'}" />
+				<Text text="{CompanyID}" visible="{= ${Country} === 'HK'}" />
+				<Label text="{i18n>detailGeneralLabelBroker}" wrapping="true" />
+				<Text text="{Broker}" />
+				<Label text="{i18n>detailGeneralLabelBGType}" wrapping="true" />
+				<Text text="{BgType}" />
+				<Label text="{i18n>detailGeneralLabelRelatedTransactionFlag}" wrapping="true" />
+				<Text text="{RelatedTransactionFlag}" />
+				<Label text="{i18n>detailGeneralLabelRemarks}" wrapping="true" />
+				<TextArea value="{Remarks}" rows="4" />
+
+				<core:Title text="" />
+				<Label text="{i18n>detailTransportationLabelModeOfTransport}" wrapping="true" required="true" />
+				<ActionSelect
+					id="modeOfTransportSelect"
+					forceSelection="false"
+					selectedKey="{ModeOfTransport}"
+					items="{
+						path: '/ZcbsHMotraSet',
+						sorter: {
+							path: 'Motra',
+							descending: false
+						},
+						filters: [
+							{ path : 'Cuscs', operator : 'EQ', value1 : 'ZCUCN' }
+						]
+					}">
+					<core:Item key="{Motra}" text="{Text1}" />
+				</ActionSelect>
+				<Label text="{i18n>detailGeneralLabelTradeTerm}" wrapping="true" />
+				<ActionSelect
+					id="tradeTermSelect"
+					forceSelection="false"
+					showSecondaryValues="true"
+					selectedKey="{TradeTerm}"
+					items="{
+						path: '/ZcbsHIncotermsSet',
+						sorter: { path: 'Incot', descending: false }
+					}">
+					<items>
+						<core:ListItem key="{Incot}" text="{Incot}" additionalText="{Text1}" />
+					</items>
+				</ActionSelect>
+				<Label text="{i18n>detailGeneralLabelApprover}" wrapping="true" />
+				<Text text="{Approver}" />
+				<Label text="{i18n>detailGeneralLabelPTOChecker}" wrapping="true" />
+				<Input value="{PTOChecker}" />
+				<Label text="{i18n>detailGeneralLabelPTOConfirm}" wrapping="true" />
+				<Select
+					items="{
+						path: 'selectOptions>/SelectOptions',
+						sorter: {
+							path: 'ID',
+							descending: false
+						}
+					}"
+					selectedKey="{PTOConfirm}"
+					forceSelection="false">
+					<core:Item key="{selectOptions>Key}" text="{selectOptions>Text}" />
+				</Select>
+				<Label text="{i18n>detailGeneralLabelKAD}" wrapping="true" visible="{= ${Country} === 'SA'}" />
+				<ActionSelect
+					id="kadSelect"
+					forceSelection="false"
+					selectedKey="{KAD}"
+					items="{
+						path: '/ZCBS_C_DMTEXT',
+						sorter: { path: 'ValueKey', descending: false },
+						filters: [
+							{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_KAD' }
+						]
+					}"
+					visible="{= ${Country} === 'SA'}">
+					<core:Item key="{DomainValue}" text="{ShortText}" />
+				</ActionSelect>
+				<Label text="{i18n>detailGeneralLabelConsignmentNotes}" wrapping="true" />
+				<TextArea value="{ConsignmentNotes}" rows="4" />
+				<Label text="{i18n>detailGeneralLabelETW}" wrapping="true" visible="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '10'}" />
+				<Text text="{ETW}" visible="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '10'}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>detailGeneralLabelInvoiceAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'InvoiceAmount'},
+							{path: 'InvoiceCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{InvoiceCurrency}" />
+				<Label text="{i18n>detailGeneralLabelHTMReferenceAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'HTMReferenceAmount'},
+							{path: 'HTMReferenceAmountCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{HTMReferenceAmountCurrency}" />
+				<Label text="{i18n>detailGeneralLabelFreightAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'FreightAmount'},
+							{path: 'FreightAmountCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{FreightAmountCurrency}" visible="{= !${detailView>/insuranceFreightFlag}}" />
+				<Input id="freightAmountInput" value="{
+						path: 'FreightAmount',
+						type: 'sap.ui.model.type.Float',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" visible="{detailView>/insuranceFreightFlag}">
+					<layoutData>
+						<l:GridData span="XL6 L6 M10 S10" />
+					</layoutData>
+				</Input>
+				<Text text="{FreightAmountCurrency}" visible="{detailView>/insuranceFreightFlag}" class="sapUiCompSmartFieldUnit">
+					<layoutData>
+						<l:GridData span="XL2 L2 M2 S2" />
+					</layoutData>
+				</Text>
+				<Label text="{i18n>detailGeneralLabelHTMReferenceFreight}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'HTMReferenceFreight'},
+							{path: 'HTMReferenceFreightCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{HTMReferenceFreightCurrency}" />
+				<Label text="{i18n>detailGeneralLabelInsuranceAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'InsuranceAmount'},
+							{path: 'InsuranceAmountCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{InsuranceAmountCurrency}" visible="{= !${detailView>/insuranceFreightFlag}}" />
+				<Input id="insuranceAmountInput" value="{
+						path: 'InsuranceAmount',
+						type: 'sap.ui.model.type.Float',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" visible="{detailView>/insuranceFreightFlag}">
+					<layoutData>
+						<l:GridData span="XL6 L6 M10 S10" />
+					</layoutData>
+				</Input>
+				<Text text="{InsuranceAmountCurrency}" visible="{detailView>/insuranceFreightFlag}" class="sapUiCompSmartFieldUnit">
+					<layoutData>
+						<l:GridData span="XL2 L2 M2 S2" />
+					</layoutData>
+				</Text>
+				<Label text="{i18n>detailGeneralLabelHTMReferenceInsurance}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'HTMReferenceInsurance'},
+							{path: 'HTMReferenceInsuranceCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{HTMReferenceInsuranceCurrency}" />
+				<Label text="{i18n>detailGeneralLabelFOBAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'FOBAmount'},
+							{path: 'FOBAmountCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{FOBAmountCurrency}" />
+				<Label text="{i18n>detailGeneralLabelBOEAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'BOEAmount'},
+							{path: 'BOECurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{BOECurrency}" />
+				<Label text="{i18n>detailGeneralLabelExchangeRate}" wrapping="true" />
+				<sf:SmartField id="exchangeRateInput" change="onExchangeRateChange" value="{
+						type: 'sap.ui.model.type.Float',
+						path: 'ExchangeRate',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 8
+						}
+					}" />
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

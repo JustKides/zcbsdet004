@@ -1,0 +1,165 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:sf="sap.ui.comp.smartfield"
+	xmlns:core="sap.ui.core">
+	<VBox class="sapUiSmallMargin">
+		<f:SimpleForm
+			editable="false"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="4"
+			labelSpanM="12"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="0"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="3"
+			columnsL="3"
+			columnsM="3"
+			singleContainerFullSize="false" >
+			<f:content>
+				<core:Title text="" />
+				<Label text="{i18n>itemBasicLabelItemCode}" wrapping="true" required="true" />
+				<Text text="{ProductNo}" />
+				<Label text="{i18n>itemBasicLabelItemDescription}" wrapping="true" />
+				<Text text="{ShortText}" />
+				<Label text="{i18n>itemBasicLabelHSCode}" wrapping="true" />
+				<Text text="{HsCode}" />
+				<Label text="{i18n>itemBasicLabelGoodsName}" wrapping="true" />
+				<Text text="{GoodsName}" />
+				<Label text="{i18n>itemBasicLabelGoodsNameLocal}" wrapping="true" />
+				<Text text="{GoodsNameLocal}" />
+				<Label text="{i18n>itemBasicLabelCoO}" wrapping="true" required="{= ${itemView>/detCountry} === 'HK' &amp;&amp; ${itemView>/detBusinessType} === '20' &amp;&amp; ${itemView>/detImportOrExport} === '2'}" />
+				<Text text="{Origin}" />
+				<Label text="{i18n>itemBasicLabelHKModel}" wrapping="true" visible="{= ${itemView>/detCountry} === 'HK'}" />
+				<Text text="{HKModel}" visible="{= ${itemView>/detCountry} === 'HK'}" />
+				<Label text="{i18n>itemBasicLabelBrand}" wrapping="true" />
+				<Text text="{Brand}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>itemBasicLabelProductCode}" wrapping="true" />
+				<Text text="{ProductCode}" />
+				<Label text="{i18n>itemBasicLabelProductName}" wrapping="true" />
+				<Text text="{ProductName}" />
+				<Label text="{i18n>itemBasicLabelAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'Amount'},
+							{path: 'AmountCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{AmountCurrency}" />
+				<Label text="{i18n>itemBasicLabelUnitPrice}" wrapping="true" />
+				<ObjectNumber number="{
+						path: 'UnitPrice',
+						type: 'sap.ui.model.type.Float'
+					}" unit="{UnitPriceCurrency}" />
+				<Label text="{i18n>itemBasicLabelQuantity}" wrapping="true" required="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'Qty'},
+							{path: 'UoM'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							minFractionDigits: 3,
+							maxFractionDigits: 3
+						}
+					}" unit="{UoM}" />
+				<Label text="{i18n>itemBasicLabelBOEQuantity}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'BOEQty'},
+							{path: 'BOEUnitExternal'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							minFractionDigits: 3,
+							maxFractionDigits: 3
+						}
+					}" unit="{BOEUnitExternal}" />
+				<Label text="{i18n>itemBasicLabelBOERate}" wrapping="true" />
+				<Text text="{
+						parts: [
+							{path: 'BOERate'}
+						],
+						formatter: '.formatter.percentValue'
+					}" />
+				<Label text="{i18n>itemBasicLabelQuantitySecond}" wrapping="true" visible="{= ${itemView>/detCountry} === 'CN'}" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'SecondQty'},
+							{path: 'SecondUnit'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false
+						}
+					}" unit="{SecondUnit}" visible="{= ${itemView>/detCountry} === 'CN'}" />
+				<Label text="{i18n>itemBasicLabelRateSecond}" wrapping="true" visible="{= ${itemView>/detCountry} === 'CN'}" />
+				<sf:SmartField value="{
+						parts: [
+							{path: 'RateSecond'}
+						],
+						formatOptions: {
+							showMeasure: false
+						}
+					}" contextEditable="false" visible="{= ${itemView>/detCountry} === 'CN'}" />
+				<Label text="{i18n>itemBasicLabelTradeTerms}" wrapping="true" />
+				<Text text="{TradeTerms}" />
+				<Label text="{i18n>itemBasicLabelDevice}" wrapping="true" visible="{= ${itemView>/detCountry} === 'SA'}" />
+				<Text text="{Device}" visible="{= ${itemView>/detCountry} === 'SA'}" />
+				<Label text="{i18n>itemBasicLabelTaxation}" wrapping="true" visible="{= ${itemView>/detCountry} === 'CN'}" />
+				<Text text="{Taxation}" visible="{= ${itemView>/detCountry} === 'CN'}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>itemBasicLabelNetWeight}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'NetWeight'},
+							{path: 'WeightUnit'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							minFractionDigits: 3,
+							maxFractionDigits: 3
+						}
+					}" unit="{WeightUnit}" />
+				<Label text="{i18n>itemPackagingLabelPackageInstruction}" wrapping="true" />
+				<Text text="{PackingInstruction}" />
+				<Label text="{i18n>itemPackagingLabelPackageQty}" wrapping="true" required="{= ${itemView>/detCountry} === 'HK' &amp;&amp; ${itemView>/detBusinessType} === '20' &amp;&amp; ${itemView>/detImportOrExport} === '2'}" />
+				<sf:SmartField value="{
+						parts: [
+							{path: 'PackageQty'}
+						],
+						formatOptions: {
+							showMeasure: false
+						}
+					}" contextEditable="false" />
+				<Label text="{i18n>itemPackagingLabelPackageType}" wrapping="true" required="{= ${itemView>/detCountry} === 'HK' &amp;&amp; ${itemView>/detBusinessType} === '20' &amp;&amp; ${itemView>/detImportOrExport} === '2'}" />
+				<Text text="{PackageTypeTxt}" />
+				<Label text="{i18n>itemBasicLabelLineContractNo}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Text text="{LineConTractNo}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Label text="{i18n>itemBasicLabelRevision}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Text text="{Revision}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Label text="{i18n>itemBasicLabelContractVersion}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Text text="{ContractVersion}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Label text="{i18n>itemBasicLabelLinePLNo}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Text text="{LinePLNo}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Label text="{i18n>itemBasicLabelRemarks}" wrapping="true" />
+				<Text text="{Remarks}" />
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

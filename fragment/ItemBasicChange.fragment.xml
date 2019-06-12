@@ -1,0 +1,198 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:sf="sap.ui.comp.smartfield"
+	xmlns:core="sap.ui.core">
+	<VBox class="sapUiSmallMargin">
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="4"
+			labelSpanM="12"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="0"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="3"
+			columnsL="3"
+			columnsM="3"
+			singleContainerFullSize="false" >
+			<f:content>
+				<core:Title text="" />
+				<Label text="{i18n>itemBasicLabelItemCode}" wrapping="true" required="true" />
+				<sf:SmartField id="itemCodeInput" value="{ProductNo}" />
+				<Label text="{i18n>itemBasicLabelItemDescription}" wrapping="true" />
+				<Text text="{ShortText}" />
+				<Label text="{i18n>itemBasicLabelHSCode}" wrapping="true" />
+				<sf:SmartField id="hsCodeInput" value="{HsCode}" />
+				<Label text="{i18n>itemBasicLabelGoodsName}" wrapping="true" />
+				<Text text="{GoodsName}" />
+				<Label text="{i18n>itemBasicLabelGoodsNameLocal}" wrapping="true" />
+				<Text text="{GoodsNameLocal}" />
+				<Label text="{i18n>itemBasicLabelCoO}" wrapping="true" required="{= ${itemView>/detCountry} === 'HK' &amp;&amp; ${itemView>/detBusinessType} === '20' &amp;&amp; ${itemView>/detImportOrExport} === '2'}" />
+				<ActionSelect
+					id="coOSelect"
+					items="{
+						path: '/Zcbs_C_CountryVH',
+						sorter: {
+							path: 'CountryKey',
+							descending: false
+						}
+					}"
+					selectedKey="{Origin}"
+					showSecondaryValues="true"
+					forceSelection="false">
+					<items>
+						<core:ListItem key="{CountryKey}" text="{CountryText}" additionalText="{CountryKey}" />
+					</items>
+				</ActionSelect>
+				<Label text="{i18n>itemBasicLabelHKModel}" wrapping="true" visible="{= ${itemView>/detCountry} === 'HK'}" />
+				<Input value="{HKModel}" visible="{= ${itemView>/detCountry} === 'HK'}" />
+				<Label text="{i18n>itemBasicLabelBrand}" wrapping="true" />
+				<Input value="{Brand}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>itemBasicLabelProductCode}" wrapping="true" />
+				<Input value="{ProductCode}" />
+				<Label text="{i18n>itemBasicLabelProductName}" wrapping="true" />
+				<Input value="{ProductName}" />
+				<Label text="{i18n>itemBasicLabelAmount}" wrapping="true" />
+				<sf:SmartField id="amountInput" value="{
+						path: 'Amount',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" uomEditable="false" innerControlsCreated="onAmountInnerControlsCreated" />
+				<!-- <Text text="{AmountCurrency}" class="sapUiCompSmartFieldUnit">
+					<layoutData>
+						<l:GridData span="XL2 L2 M2 S2" />
+					</layoutData>
+				</Text> -->
+				<Label text="{i18n>itemBasicLabelUnitPrice}" wrapping="true" />
+				<ObjectNumber number="{
+						path: 'UnitPrice',
+						type: 'sap.ui.model.type.Float'
+					}" unit="{UnitPriceCurrency}" />
+				<Label text="{i18n>itemBasicLabelQuantity}" wrapping="true" required="true" />
+				<sf:SmartField id="qtyInput" value="{
+						path: 'Qty',
+						formatOptions: {
+							showMeasure: false,
+							minFractionDigits: 3,
+							maxFractionDigits: 3
+						}
+					}" innerControlsCreated="onQtyInnerControlsCreated" />
+				<Label text="{i18n>itemBasicLabelBOEQuantity}" wrapping="true" />
+				<sf:SmartField id="boeQtyInput" value="{
+						path: 'BOEQty',
+						formatOptions: {
+							showMeasure: false,
+							minFractionDigits: 3,
+							maxFractionDigits: 3
+						}
+					}" uomEditable="false" uomVisible="false" />
+				<Text text="{BOEUnitExternal}" class="sapUiCompSmartFieldUnit">
+					<layoutData>
+						<l:GridData span="XL2 L2 M2 S2" />
+					</layoutData>
+				</Text>
+				<Label text="{i18n>itemBasicLabelBOERate}" wrapping="true" />
+				<Text text="{
+						parts: [
+							{path: 'BOERate'}
+						],
+						formatter: '.formatter.percentValue'
+					}" />
+				<Label text="{i18n>itemBasicLabelQuantitySecond}" wrapping="true" visible="{= ${itemView>/detCountry} === 'CN'}" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'SecondQty'},
+							{path: 'SecondUnit'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false
+						}
+					}" unit="{SecondUnit}" visible="{= ${itemView>/detCountry} === 'CN'}" />
+				<Label text="{i18n>itemBasicLabelRateSecond}" wrapping="true" visible="{= ${itemView>/detCountry} === 'CN'}" />
+				<sf:SmartField value="{
+						parts: [
+							{path: 'RateSecond'}
+						],
+						formatOptions: {
+							showMeasure: false
+						}
+					}" contextEditable="false" visible="{= ${itemView>/detCountry} === 'CN'}" />
+				<Label text="{i18n>itemBasicLabelTradeTerms}" wrapping="true" />
+				<ActionSelect
+					id="tradeTermSelect"
+					forceSelection="false"
+					showSecondaryValues="true"
+					selectedKey="{TradeTerms}"
+					items="{
+						path: '/ZcbsHIncotermsSet',
+						sorter: { path: 'Incot', descending: false }
+					}">
+					<items>
+						<core:ListItem key="{Incot}" text="{Incot}" additionalText="{Text1}" />
+					</items>
+				</ActionSelect>
+				<Label text="{i18n>itemBasicLabelDevice}" wrapping="true" visible="{= ${itemView>/detCountry} === 'SA'}" />
+				<Text text="{Device}" visible="{= ${itemView>/detCountry} === 'SA'}" />
+				<Label text="{i18n>itemBasicLabelTaxation}" wrapping="true" visible="{= ${itemView>/detCountry} === 'CN'}" />
+				<Text text="{Taxation}" visible="{= ${itemView>/detCountry} === 'CN'}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>itemBasicLabelNetWeight}" wrapping="true" />
+				<sf:SmartField id="netWeightInput" value="{
+						path: 'NetWeight',
+						formatOptions: {
+							showMeasure: false,
+							minFractionDigits: 3,
+							maxFractionDigits: 3
+						}
+					}" innerControlsCreated="onNetWeightInnerControlsCreated" />
+				<Label text="{i18n>itemPackagingLabelPackageInstruction}" wrapping="true" />
+				<Input value="{PackingInstruction}" />
+				<Label text="{i18n>itemPackagingLabelPackageQty}" wrapping="true" required="{= ${itemView>/detCountry} === 'HK' &amp;&amp; ${itemView>/detBusinessType} === '20' &amp;&amp; ${itemView>/detImportOrExport} === '2'}" />
+				<sf:SmartField id="packageQtyInput" value="{
+						parts: [
+							{path: 'PackageQty'}
+						],
+						formatOptions: {
+							showMeasure: false
+						}
+					}" />
+				<Label text="{i18n>itemPackagingLabelPackageType}" wrapping="true" required="{= ${itemView>/detCountry} === 'HK' &amp;&amp; ${itemView>/detBusinessType} === '20' &amp;&amp; ${itemView>/detImportOrExport} === '2'}" />
+				<ActionSelect
+					id="packageTypeSelect"
+					forceSelection="false"
+					selectedKey="{PackageType}"
+					items="{
+						path: '/ZCBS_C_DMTEXT',
+						sorter: { path: 'ValueKey', descending: false },
+						filters: [
+							{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_BOX_MATERIAL' }
+						]
+					}">
+					<core:Item key="{DomainValue}" text="{ShortText}" />
+				</ActionSelect>
+				<Label text="{i18n>itemBasicLabelLineContractNo}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Text text="{LineConTractNo}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Label text="{i18n>itemBasicLabelRevision}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Input value="{Revision}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Label text="{i18n>itemBasicLabelContractVersion}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Text text="{ContractVersion}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Label text="{i18n>itemBasicLabelLinePLNo}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Text text="{LinePLNo}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+				<Label text="{i18n>itemBasicLabelRemarks}" wrapping="true" />
+				<TextArea value="{Remarks}" rows="4" />
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

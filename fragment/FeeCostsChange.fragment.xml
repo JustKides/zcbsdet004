@@ -1,0 +1,43 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:sf="sap.ui.comp.smartfield"
+	xmlns:core="sap.ui.core">
+	<VBox class="sapUiSmallMargin">
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="4"
+			labelSpanM="12"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="0"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="3"
+			columnsL="3"
+			columnsM="3"
+			singleContainerFullSize="false">
+			<f:content>
+				<core:Title text="" />
+				<Label text="{i18n>detailGeneralLabelQuotationNo}" wrapping="true" />
+				<Input
+					id="quotationNoInput"
+					class="cbsQuotationNoInput"
+					showValueHelp="true"
+					valueHelpRequest="onQuotationValueHelpRequest"
+					valueHelpOnly="true"
+					value="{QuotationNo}" />
+				<Button text="Clear Quotation"
+						press="onClearQuotation">
+					<layoutData>
+						<FlexItemData growFactor="1" />
+					</layoutData>
+				</Button>
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,17 @@
+<mvc:View
+	controllerName="huawei.cbs.det004.controller.App"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.f"
+	xmlns:m="sap.m"
+	displayBlock="true"
+	busy="{appView>/busy}"
+	busyIndicatorDelay="{appView>/delay}"
+	height="100%">
+	<m:App>
+		<FlexibleColumnLayout
+			id="app"
+			layout="{appView>/uiState/layout}"
+			stateChange="onStateChanged">
+		</FlexibleColumnLayout>
+	</m:App>
+</mvc:View>

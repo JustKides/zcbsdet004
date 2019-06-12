@@ -1,0 +1,82 @@
+<core:FragmentDefinition
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:sf="sap.ui.comp.smartfield"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Dialog title="Create/Edit Partner" afterClose="onPartnerClose">
+		<content>
+			<VBox class="sapUiSizeCompact">
+				<HBox justifyContent="Start" width="100%">
+					<form:SimpleForm
+						editable="true"
+						layout="ResponsiveGridLayout"
+						labelSpanXL="4"
+						labelSpanL="4"
+						labelSpanM="12"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="0"
+						emptySpanL="0"
+						emptySpanM="0"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1">
+						<form:content>
+							<Label text="Partner GUID" textAlign="Begin" visible="false" />
+							<Input value="{ParGUID}" visible="false" />
+
+							<Label text="Partner ID" textAlign="Begin" visible="false" />
+							<Input value="{ParID}" visible="false" />
+
+							<Label text="Partner Function" textAlign="Begin" />
+							<ActionSelect
+								items="{
+									path: '/ZCBS_C_DetCodeList',
+									sorter: {
+										path: 'Code1',
+										descending: false
+									},
+									filters : [
+										{ path : 'Langu', operator : 'EQ', value1 : 'EN' },
+										{ path : 'TrTy', operator : 'EQ', value1 : 'PAFCT' },
+										{ path : 'Code2', operator : 'EQ', value1 : 'ZPGCUS' }
+									]
+								}"
+								selectedKey="{ParObjectType}"
+								showSecondaryValues="true"
+								forceSelection="false"
+								change="onPartnerFunctionChange">
+								<core:ListItem key="{Code1}" text="{Description}" additionalText="{Code1}" />
+							</ActionSelect>
+
+							<Label text="Partner No." textAlign="Begin" />
+							<sf:SmartField value="{ParNumber}" innerControlsCreated="onPartnerInnerControlsCreated" />
+
+							<Label text="Partner Name" textAlign="Begin" />
+							<TextArea value="{ParName}" maxLength="160" editable="{= ${ParNumber} === 'LSP_DUMMY1' || ${ParNumber} === 'CON_DUMMY1' || ${ParNumber} === 'SIP_DUMMY1'}" />
+
+							<Label text="Address" textAlign="Begin" />
+							<TextArea value="{Address}" maxLength="220" editable="{= ${ParNumber} === 'LSP_DUMMY1' || ${ParNumber} === 'CON_DUMMY1' || ${ParNumber} === 'SIP_DUMMY1'}" />
+
+							<Label text="Country" textAlign="Begin" visible="false" />
+							<Text text="{Country}" visible="false" />
+
+							<Label text="Header Id" textAlign="Begin" visible="false" />
+							<Text text="{HeaderID}" visible="false" />
+						</form:content>
+					</form:SimpleForm>
+				</HBox>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button text="{i18n>buttonTextSave}" press="onPartnerSave" />
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>buttonTextCancel}" press="onPartnerCancel" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

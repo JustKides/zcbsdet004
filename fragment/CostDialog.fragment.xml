@@ -1,0 +1,148 @@
+<!-- No Use In Manage -->
+<core:FragmentDefinition
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:layout="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:sf="sap.ui.comp.smartfield"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:table="sap.ui.table"
+	xmlns="sap.m">
+	<Dialog title="Edit Cost" afterClose="onCostClose">
+		<content>
+			<VBox class="sapUiSizeCompact">
+				<HBox justifyContent="Start" width="100%">
+					<form:SimpleForm
+						editable="true"
+						layout="ResponsiveGridLayout"
+						labelSpanXL="4"
+						labelSpanL="4"
+						labelSpanM="12"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="0"
+						emptySpanL="0"
+						emptySpanM="0"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1">
+						<form:content>
+							<Label text="{i18n>detailCostTableColumnCostID}" visible="false" />
+							<Text text="{Guid_Legculc}" visible="false" />
+
+							<Label text="{i18n>detailCostTableColumnDescription}" />
+							<Input value="{Description}" editable="true" enabled="false" />
+
+							<Label text="{i18n>detailCostTableColumnDutyType}" />
+							<ActionSelect
+								id="dutyTypeId"
+								forceSelection="false"
+								selectedKey="{Tlc_Aart}"
+								showSecondaryValues="true"
+								change="onDutyTypeChange"
+								visible="{= ${detailView>/new} || ${Calc_Rule} === '03'}">
+								<core:ListItem key="{FeeType}" text="{FeeType}" additionalText="{FeeDesc}" />
+							</ActionSelect>
+
+							<Label text="{i18n>detailCostTableColumnUnitPrice}" visible="{= !${detailView>/new}}" />
+							<sf:SmartField value="{
+									path: 'Unit_Price',
+									type: 'sap.ui.model.type.Currency',
+									formatOptions: {
+										showMeasure: false
+									}
+								}" contextEditable="false" visible="{= !${detailView>/new}}" />
+
+							<Label text="{i18n>detailCostTableColumnQuantity}" visible="{= !${detailView>/new}}" />
+							<Input value="{
+									path: 'Quantity',
+									type: 'sap.ui.model.type.Float',
+									formatOptions: {
+										showMeasure: false
+									}
+								}" type="Number" editable="true" enabled="false" visible="{= !${detailView>/new}}" />
+
+							<Label text="{i18n>detailCostTableColumnCalcRule}" />
+							<Text text="{Calc_Rule}" />
+
+							<Label text="{i18n>detailCostTableColumnFirstUOM}" visible="false" />
+							<Text text="{FirstUOM}" visible="false" />
+
+							<Label text="{i18n>detailCostTableColumnSecondUOM}" visible="false" />
+							<Text text="{SecondUOM}" visible="false" />
+
+							<Label text="{i18n>detailCostTableColumnSystemAmount}" visible="{= !${detailView>/new}}" />
+							<ObjectNumber number="{
+								parts: [
+									{path: 'SystemAmount'},
+									{path: 'Currency'}
+								],
+								type: 'sap.ui.model.type.Currency',
+								formatOptions: {
+									showMeasure: false,
+									maxFractionDigits: 2
+								}
+							}" unit="{Currency}" visible="{= !${detailView>/new}}" />
+
+							<Label text="{i18n>detailCostTableColumnActualAmount}" />
+							<Input value="{ActualAmount}" type="Number" liveChange="onActualAmountChange" editable="{= ${Status} === '' || ${Status} === '10' || ${Status} === '20'}">
+								<layoutData>
+									<layout:GridData span="XL6 L6 M10 S10" />
+								</layoutData>
+							</Input>
+							<Text text="{Currency}" class="sapUiCompSmartFieldUnit">
+								<layoutData>
+									<layout:GridData span="XL2 L2 M2 S2" />
+								</layoutData>
+							</Text>
+
+							<Label text="{i18n>detailCostTableColumnDifference}" />
+							<ObjectNumber
+								number="{
+									parts: [
+										{path: 'SystemAmount'},
+										{path: 'ActualAmount'},
+										{path: 'Currency'}
+									],
+									type: 'sap.ui.model.type.Currency',
+									formatter: '.formatter.calculateAmountDifference'
+								}"
+								unit="{Currency}"
+								state="{
+									parts: [
+										{path: 'SystemAmount'},
+										{path: 'ActualAmount'}
+									],
+									formatter: '.formatter.calculateAmountDifferenceState'
+								}"
+								visible="{= ${SystemAmount} !== null &amp;&amp; ${ActualAmount} !== null}" />
+
+							<Label text="{i18n>detailCostTableColumnComments}" />
+							<TextArea value="{Comments}" rows="4" editable="{= ${Status} === '' || ${Status} === '10' || ${Status} === '20'}" />
+
+							<Label text="{i18n>detailCostTableColumnStatus}" visible="false" />
+							<Text text="{StatusText}" visible="false" />
+
+							<Label text="{i18n>detailCostTableColumnStatus}" visible="false" />
+							<Text text="{Status}" visible="false" />
+
+							<Label text="Header Id" visible="false" />
+							<Text text="{HeaderId}" visible="false" />
+
+							<Label text="Cost Type" visible="false" />
+							<Text text="{CostType}" visible="false" />
+						</form:content>
+					</form:SimpleForm>
+				</HBox>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button text="{i18n>buttonTextSave}" press="onCostSave" id="btnCostSave" />
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>buttonTextCancel}" press="onCostCancel" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

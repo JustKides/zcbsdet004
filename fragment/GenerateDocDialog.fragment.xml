@@ -1,0 +1,50 @@
+<core:FragmentDefinition
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:layout="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:table="sap.ui.table"
+	xmlns="sap.m">
+	<Dialog title="Declaration Documents" afterClose="onDocGenerateClose" class="sapUiSizeCompact">
+		<content>
+			<Table
+				id="docGenerateList"
+				noDataText="{i18n>noDataText}"
+				mode="SingleSelectLeft"
+				growing="false"
+				showSeparators="All"
+				fixedLayout="false"
+				items="{docTypes>/DocTypes}"
+				selectionChange="onDocGenerateSelectionChange">
+				<columns>
+					<Column visible="false">
+						<Text text="Doc ID" visible="false" />
+					</Column>
+					<Column>
+						<Text text="Doc Type" />
+					</Column>
+					<Column>
+						<Text text="Doc Description" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Inactive">
+						<cells>
+							<Text text="{docTypes>ID}" visible="false" />
+							<Text text="{docTypes>DocType}" />
+							<Text text="{docTypes>DocDescription}" />
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+		<beginButton>
+			<Button text="{i18n>buttonTextPreview}" press="onDocGeneratePreview" enabled="{= ${detailView>/docTypeSelected}}" />
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>buttonTextCancel}" press="onDocGenerateCancel" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

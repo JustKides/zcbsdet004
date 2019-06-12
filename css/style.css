@@ -1,0 +1,27 @@
+.sapUiSizeCompact .sapUxAPObjectPageLayout .sapFDynamicPageToggleHeaderIndicator {
+	width: 2rem;
+	height: 2rem;
+	font-size: 1rem;
+	bottom: -3rem !important;
+	margin-left: -1rem;
+}
+
+/*Remove SemanticPage content Padding*/
+.cbsSemanticPageNoPadding .sapFDynamicPageContent, 
+.cbsSemanticPageNoPadding .sapFDynamicPageContentFitContainer {
+	padding: 0;
+}
+.cbsSmartTable {
+	display: block;
+}
+
+/*Input with close icon*/
+.sapUiSizeCompact .iconCloseParent div {
+	width: 100%;
+}
+.sapUiSizeCompact .iconClose .sapMInputValHelpInner:before {
+	content: "\e1c7";
+}
+.cbsQuotationNoInput .sapMTokenText {
+	width: 3rem;
+}

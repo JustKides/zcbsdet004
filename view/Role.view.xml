@@ -1,0 +1,41 @@
+<mvc:View controllerName="huawei.cbs.det004.controller.Role" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	xmlns:semantic="sap.f.semantic">
+	<Page title="Select Role">
+		<List
+			id="list"
+			width="auto"
+			class="sapFDynamicPageAlignContent"
+			items="{
+				path: '/Zcbs_C_UiDimensionDet',
+				sorter: {
+					path: 'RoleID',
+					descending: false
+				},
+				filters : [
+					{ path : 'AppID', operator : 'EQ', value1 : 'DET004'}
+				]
+			}"
+			busyIndicatorDelay="{roleView>/delay}"
+			noDataText="{roleView>/noDataText}"
+			mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}"
+			growing="true"
+			growingScrollToLoad="true"
+			updateFinished="onUpdateFinished"
+			selectionChange="onSelectionChange">
+			<items>
+				<ObjectListItem
+					type="Navigation"
+					press="onSelectionChange"
+					intro=""
+					title="{RoleName}"
+					number=""
+					numberUnit=""
+					selected="false">
+					<attributes>
+						<ObjectAttribute title="" active="false" visible="true" text="{BusinessLineText} - {ImpExpText}"/>
+					</attributes>
+				</ObjectListItem>
+			</items>
+		</List>
+	</Page>
+</mvc:View>

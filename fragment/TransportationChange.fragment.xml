@@ -1,0 +1,199 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:sf="sap.ui.comp.smartfield"
+	xmlns:core="sap.ui.core">
+	<VBox class="sapUiSmallMargin">
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="4"
+			labelSpanM="12"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="0"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="3"
+			columnsL="3"
+			columnsM="3"
+			singleContainerFullSize="false" >
+			<f:content>
+				<core:Title text="" />
+				<Label text="{i18n>detailTransportationLabelDepartureCountry}" wrapping="true" 
+					  required="{= !(${ImportOrExport} === '2' &amp;&amp; ${BusinessType} === '20')}" />
+				<sf:SmartField id="departureCountrySelect" value="{DepartureCountry}" />
+				<Label text="{i18n>detailTransportationLabelDeparturePort}" wrapping="true" required="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1'}" />
+				<HBox>
+					<sf:SmartField id="departurePortSelect" value="{DeparturePort}" change="onDeparturePortChange" />
+					<layoutData>
+						<l:GridData span="XL3 L3 M3 S3" />
+					</layoutData>
+				</HBox>
+				<Input id="departurePortTxtInput" value="{DeparturePortTxt}" showValueHelp="true" class="iconClose departure" valueHelpRequest="onDeparturePortClear">
+					<layoutData>
+						<l:GridData span="XL5 L5 M9 S9" />
+					</layoutData>
+				</Input>
+				<Label text="{i18n>detailTransportationLabelTransitCountry}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<sf:SmartField id="transitCountrySelect" value="{TransitCountry}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Label text="{i18n>detailTransportationLabelTransitPort}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<HBox visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+					<sf:SmartField id="transitPortSelect" value="{TransitPort}" />
+					<layoutData>
+						<l:GridData span="XL3 L3 M3 S3" />
+					</layoutData>
+				</HBox>
+				<Input id="transitPortTxtInput" value="{TransitPortTxt}" showValueHelp="true" class="iconClose transit" valueHelpRequest="onTransitPortClear" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+					<layoutData>
+						<l:GridData span="XL5 L5 M9 S9" />
+					</layoutData>
+				</Input>
+				<Label text="{i18n>detailTransportationLabelDestinationCountry}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<sf:SmartField id="destinationCountrySelect" value="{DestinationCountry}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Label text="{i18n>detailTransportationLabelDestinationPort}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<HBox visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+					<sf:SmartField id="destinationPortSelect" value="{DestinationPort}" />
+					<layoutData>
+						<l:GridData span="XL3 L3 M3 S3" />
+					</layoutData>
+				</HBox>
+				<Input id="destinationPortTxtInput" value="{DestinationPortTxt}" showValueHelp="true" class="iconClose destination" valueHelpRequest="onDestinationPortClear" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+					<layoutData>
+						<l:GridData span="XL5 L5 M9 S9" />
+					</layoutData>
+				</Input>
+				<Label text="{i18n>detailTransportationLabelFinalDestination}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<HBox visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+					<sf:SmartField id="finalDestinationSelect" value="{FinalDestination}" />
+					<layoutData>
+						<l:GridData span="XL3 L3 M3 S3" />
+					</layoutData>
+				</HBox>
+				<Input id="finalDestinationTxtInput" value="{FinalDestinationTxt}" showValueHelp="true" class="iconClose final" valueHelpRequest="onFinalDestinationClear" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+					<layoutData>
+						<l:GridData span="XL5 L5 M9 S9" />
+					</layoutData>
+				</Input>
+				<Label text="{i18n>detailTransportationLabelShipTo}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Text text="{ShipTo}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Label text="{i18n>detailTransportationLabelProvince}" wrapping="true" visible="{= ${Country} !== 'HK'}" />
+				<Input value="{Province}" visible="{= ${Country} !== 'HK'}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>detailTransportationLabelShipToLocationID}" wrapping="true" visible="{= ${Country} !== 'HK'}" />
+				<Input value="{ShiptoLocationID}" visible="{= ${Country} !== 'HK'}" />
+				<Label text="{i18n>detailTransportationLabelTransportToolNo}" wrapping="true" />
+				<Input value="{TruckNumber}" />
+				<Label text="{i18n>detailTransportationLabelTransportTripNo}" wrapping="true" />
+				<Input value="{TransportTripNo}" />
+				<Label text="{i18n>detailTransportationLabelContainerNo}" wrapping="true" visible="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '10' &amp;&amp; ${ImportOrExport} === '1'}" />
+				<Input value="{ContainerNo}" visible="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '10' &amp;&amp; ${ImportOrExport} === '1'}" />
+				<Label text="{i18n>detailTransportationLabelCNViehicleNo}" wrapping="true" visible="{= ${Country} === 'HK'}" />
+				<Input value="{VehicleNo}" visible="{= ${Country} === 'HK'}" />
+				<Label text="{i18n>detailTransportationLabelExpressTrackingNo}" wrapping="true" />
+				<Input value="{ExpressTrackingNo}" />
+				<Label text="{i18n>detailTransportationLabelMAWB}" wrapping="true" required="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1'}" />
+				<Input id="mawbInput" value="{MAWB}" />
+				<Label text="{i18n>detailTransportationLabelHAWB}" wrapping="true" required="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1'}" />
+				<Input id="hawbInput" value="{HAWB}" />
+				<Label text="{i18n>detailTransportationLabelCCRN}" wrapping="true" />
+				<Input value="{CCRN}" />
+				<Label text="{i18n>detailTransportationLabelManifestNo}" wrapping="true" />
+				<Input value="{ManifestNo}" />
+				<Label text="{i18n>detailGeneralLabelCAT}" wrapping="true" visible="{= ${Country} === 'HK'}" />
+				<ActionSelect
+					id="catSelect"
+					forceSelection="false"
+					selectedKey="{CAT}"
+					items="{
+						path: '/ZcbsHCatSet',
+						sorter: { path: 'CatCode', descending: false }
+					}" visible="{= ${Country} === 'HK'}">
+					<core:ListItem key="{CatCode}" text="{CatCode}" />
+				</ActionSelect>
+
+				<core:Title text="" />
+				<Label text="{i18n>detailTransportationLabelTotalGrossWeight}" wrapping="true" />
+				<sf:SmartField id="totalGrossWeightInput" value="{
+						path: 'TotalGrossWeight',
+						type: 'sap.ui.model.type.Float',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 3
+						}
+					}" />
+				<Label text="{i18n>detailTransportationLabelTotalNetWeight}" wrapping="true" />
+				<sf:SmartField id="totalNetWeightInput" value="{
+						path: 'TotalNetWeight',
+						type: 'sap.ui.model.type.Float',
+						formatOptions: {
+							showMeasure: false,
+							minFractionDigits: 3,
+							maxFractionDigits: 3
+						}
+					}" />
+				<Label text="{i18n>detailTransportationLabelTotalVolume}" wrapping="true" />
+				<sf:SmartField id="totalVolumeInput" value="{
+						path: 'TotalVolume',
+						type: 'sap.ui.model.type.Float',
+						formatOptions: {
+							showMeasure: false
+						}
+					}" />
+				<Label text="{i18n>detailTransportationLabelPackageType}" wrapping="true" />
+				<ActionSelect
+					id="packageTypeSelect"
+					forceSelection="false"
+					selectedKey="{PackageType}"
+					items="{
+						path: '/ZCBS_C_DMTEXT',
+						sorter: { path: 'ValueKey', descending: false },
+						filters: [
+							{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_BOX_MATERIAL' }
+						]
+					}">
+					<core:Item key="{DomainValue}" text="{ShortText}" />
+				</ActionSelect>
+				<Label text="{i18n>detailTransportationLabelTotalPackages}" wrapping="true" />
+				<Text text="{
+						path: 'TotalPackages',
+						type: 'sap.ui.model.type.Float',
+						formatOptions: {
+							showMeasure: false
+						}
+					}" />
+				<Label text="{i18n>detailTransportationLabelHKImportDate}" wrapping="true" visible="{= ${ImportOrExport} === '1'}" required="true" />
+				<DatePicker id="importDatePicker" value="{
+					path: 'detailView>/ImportDate',
+					type: 'sap.ui.model.type.Date',
+					formatOptions: {
+						style: 'medium',
+						UTC: true
+					}
+				}" visible="{= ${ImportOrExport} === '1'}" />
+				<Label text="{i18n>detailTransportationLabelHKDepartureDate}" wrapping="true" visible="{= ${ImportOrExport} === '2'}" required="true" />
+				<DatePicker id="departureDatePicker" value="{
+					path: 'detailView>/ExportDate',
+					type: 'sap.ui.model.type.Date',
+					formatOptions: {
+						style: 'medium',
+						UTC: true
+					}
+				}" visible="{= ${ImportOrExport} === '2'}" />
+				<Label text="{i18n>detailTransportationLabelActualShipmentDate}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20')}" />
+				<DatePicker value="{
+					path: 'detailView>/ShippingDate',
+					type: 'sap.ui.model.type.Date',
+					formatOptions: {
+						style: 'medium',
+						UTC: true
+					}
+				}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20')}" />
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

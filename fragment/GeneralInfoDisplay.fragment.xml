@@ -1,0 +1,175 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	<VBox class="sapUiSmallMargin">
+		<f:SimpleForm
+			editable="false"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="4"
+			labelSpanM="12"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="0"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="3"
+			columnsL="3"
+			columnsM="3"
+			singleContainerFullSize="false">
+			<f:content>
+				<core:Title text="" />
+				<Label text="{i18n>detailGeneralLabelBOENo}" wrapping="true" />
+				<Text text="{DocumentNo}" />
+				<Label text="{i18n>detailGeneralLabelExternalDocumentNo}" wrapping="true" />
+				<Text text="{ExternalDocumentNo}" />
+				<Label text="{i18n>detailGeneralLabelFulfillmentSource}" wrapping="true" />
+				<Text text="{FulFillmentSource}" />
+				<Label text="{i18n>detailGeneralLabelDeclarationEntityType}" wrapping="true" />
+				<Text text="{DeclarationEntityTypeTxt}" />
+				<Label text="{i18n>detailGeneralLabelDeclarationCompany}" wrapping="true" required="true" />
+				<Text text="{Company}" />
+				<Label text="{i18n>detailGeneralLabelTradeMode}" wrapping="true" />
+				<Text text="{TradeModeTxt}" />
+				<Label text="{i18n>detailGeneralLabelCompanyID}" wrapping="true" visible="{= ${Country} === 'HK'}" />
+				<Text text="{CompanyID}" visible="{= ${Country} === 'HK'}" />
+				<Label text="{i18n>detailGeneralLabelBroker}" wrapping="true" />
+				<Text text="{Broker}" />
+				<Label text="{i18n>detailGeneralLabelBGType}" wrapping="true" />
+				<Text text="{BgType}" />
+				<Label text="{i18n>detailGeneralLabelRelatedTransactionFlag}" wrapping="true" />
+				<Text text="{RelatedTransactionFlag}" />
+				<Label text="{i18n>detailGeneralLabelRemarks}" wrapping="true" />
+				<Text text="{Remarks}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>detailTransportationLabelModeOfTransport}" wrapping="true" required="true" />
+				<Text text="{ModeOfTransportTxt}" />
+				<Label text="{i18n>detailGeneralLabelTradeTerm}" wrapping="true" />
+				<Text text="{TradeTerm}" />
+				<Label text="{i18n>detailGeneralLabelApprover}" wrapping="true" />
+				<Text text="{Approver}" />
+				<Label text="{i18n>detailGeneralLabelPTOChecker}" wrapping="true" />
+				<Text text="{PTOChecker}" />
+				<Label text="{i18n>detailGeneralLabelPTOConfirm}" wrapping="true" />
+				<Text text="{PTOConfirm}" />
+				<Label text="{i18n>detailGeneralLabelKAD}" wrapping="true" visible="{= ${Country} === 'SA'}" />
+				<Text text="{KADTxt}" visible="{= ${Country} === 'SA'}" />
+				<Label text="{i18n>detailGeneralLabelConsignmentNotes}" wrapping="true" />
+				<Text text="{ConsignmentNotes}" />
+				<Label text="{i18n>detailGeneralLabelETW}" wrapping="true" visible="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '10'}" />
+				<Text text="{ETW}" visible="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '10'}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>detailGeneralLabelInvoiceAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'InvoiceAmount'},
+							{path: 'InvoiceCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{InvoiceCurrency}" />
+				<Label text="{i18n>detailGeneralLabelHTMReferenceAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'HTMReferenceAmount'},
+							{path: 'HTMReferenceAmountCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{HTMReferenceAmountCurrency}" />
+				<Label text="{i18n>detailGeneralLabelFreightAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'FreightAmount'},
+							{path: 'FreightAmountCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{FreightAmountCurrency}" />
+				<Label text="{i18n>detailGeneralLabelHTMReferenceFreight}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'HTMReferenceFreight'},
+							{path: 'HTMReferenceFreightCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{HTMReferenceFreightCurrency}" />
+				<Label text="{i18n>detailGeneralLabelInsuranceAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'InsuranceAmount'},
+							{path: 'InsuranceAmountCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{InsuranceAmountCurrency}" />
+				<Label text="{i18n>detailGeneralLabelHTMReferenceInsurance}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'HTMReferenceInsurance'},
+							{path: 'HTMReferenceInsuranceCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{HTMReferenceInsuranceCurrency}" />
+				<Label text="{i18n>detailGeneralLabelFOBAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'FOBAmount'},
+							{path: 'FOBAmountCurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{FOBAmountCurrency}" />
+				<Label text="{i18n>detailGeneralLabelBOEAmount}" wrapping="true" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'BOEAmount'},
+							{path: 'BOECurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{BOECurrency}" />
+				<Label text="{i18n>detailGeneralLabelExchangeRate}" wrapping="true" />
+				<Text text="{
+						path: 'ExchangeRate',
+						type: 'sap.ui.model.type.Float',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 8
+						}
+					}" />
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

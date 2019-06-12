@@ -1,0 +1,723 @@
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Aggregation.V1.xml">
+		<edmx:Include Alias="Aggregation" Namespace="Org.OData.Aggregation.V1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Authorization.V1.xml">
+		<edmx:Include Alias="Auth" Namespace="Org.OData.Authorization.V1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+		<edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://wiki.scn.sap.com/wiki/download/attachments/448470974/Common.xml?api=v2">
+		<edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://wiki.scn.sap.com/wiki/download/attachments/448470971/Communication.xml?api=v2">
+		<edmx:Include Alias="Communication" Namespace="com.sap.vocabularies.Communication.v1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+		<edmx:Include Alias="Core" Namespace="Org.OData.Core.V1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml">
+		<edmx:Include Alias="Measures" Namespace="Org.OData.Measures.V1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://wiki.scn.sap.com/wiki/download/attachments/448470968/UI.xml?api=v2">
+		<edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+		<edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1" />
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema xmlns="http://docs.oasis-open.org/odata/ns/edm">
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/Country" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Country" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_P_Country" />
+						<PropertyValue Property="SearchSupported" Bool="false" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="Country" />
+									<PropertyValue Property="ValueListProperty" String="CountryCode" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CountryText" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/ModeOfTransport" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Mode Of Transport" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_P_ModeOfTransport" />
+						<PropertyValue Property="SearchSupported" Bool="false" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ModeOfTransport" />
+									<PropertyValue Property="ValueListProperty" String="ModeOfTransportCode" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ModeOfTransportText" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<!-- Header Start -->
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_DET_SRV_Entities/ZCBS_C_DETH">
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true" />
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/DepartureCountry" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Exporting Country/Region" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_CountryVH" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="DepartureCountry" />
+									<PropertyValue Property="ValueListProperty" String="CountryKey" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CountryText" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/DeparturePort" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Departure Port" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_Port" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterIn">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="DepartureCountry" />
+									<PropertyValue Property="ValueListProperty" String="Country" />
+								</Record>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="DeparturePort" />
+									<PropertyValue Property="ValueListProperty" String="Node" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="DeparturePortTxt" />
+									<PropertyValue Property="ValueListProperty" String="Name" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/TransitCountry" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Transit Country/Region" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_CountryVH" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="TransitCountry" />
+									<PropertyValue Property="ValueListProperty" String="CountryKey" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CountryText" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/TransitPort" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Transit Port" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_Port" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterIn">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="TransitCountry" />
+									<PropertyValue Property="ValueListProperty" String="Country" />
+								</Record>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="TransitPort" />
+									<PropertyValue Property="ValueListProperty" String="Node" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="TransitPortTxt" />
+									<PropertyValue Property="ValueListProperty" String="Name" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/DestinationCountry" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Destination Country/Region" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_CountryVH" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="DestinationCountry" />
+									<PropertyValue Property="ValueListProperty" String="CountryKey" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CountryText" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/DestinationPort" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Destination Port" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_Port" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterIn">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="DestinationCountry" />
+									<PropertyValue Property="ValueListProperty" String="Country" />
+								</Record>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="DestinationPort" />
+									<PropertyValue Property="ValueListProperty" String="Node" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="DestinationPortTxt" />
+									<PropertyValue Property="ValueListProperty" String="Name" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/FinalDestination" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Final Destination" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_Port" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterIn">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="DestinationCountry" />
+									<PropertyValue Property="ValueListProperty" String="Country" />
+								</Record>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="FinalDestination" />
+									<PropertyValue Property="ValueListProperty" String="Node" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="FinalDestinationTxt" />
+									<PropertyValue Property="ValueListProperty" String="Name" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/InvoiceCurrency" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="InvoiceCurrency" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_DetWaers" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="InvoiceCurrency" />
+									<PropertyValue Property="ValueListProperty" String="Currncy" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Ktext" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/FreightAmountCurrency" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="FreightAmountCurrency" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_DetWaers" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="FreightAmountCurrency" />
+									<PropertyValue Property="ValueListProperty" String="Currncy" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Ktext" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/InsuranceAmountCurrency" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="InsuranceAmountCurrency" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_DetWaers" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="InsuranceAmountCurrency" />
+									<PropertyValue Property="ValueListProperty" String="Currncy" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Ktext" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/BOECurrency" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="BOECurrency" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_DetWaers" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="BOECurrency" />
+									<PropertyValue Property="ValueListProperty" String="Currncy" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Ktext" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/ActualBOECurrency" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="ActualBOECurrency" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_DetWaers" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ActualBOECurrency" />
+									<PropertyValue Property="ValueListProperty" String="Currncy" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Ktext" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/WeightUnit" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="WeightUnit" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_Detmsehi" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="WeightUnit" />
+									<PropertyValue Property="ValueListProperty" String="ExternalUnit" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="UnitText" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETHType/TotalVolumeUnit" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="TotalVolumeUnit" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_Detmsehi" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="TotalVolumeUnit" />
+									<PropertyValue Property="ValueListProperty" String="ExternalUnit" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="UnitText" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<!-- Header End -->
+			<!-- Item Start -->
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_DET_SRV_Entities/ZCBS_C_DETI">
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true" />
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETIType/ProductNo" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Item Code" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_Itemcode" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ProductID" />
+									<PropertyValue Property="ValueListProperty" String="ItemCodeID" />
+								</Record>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ProductNo" />
+									<PropertyValue Property="ValueListProperty" String="ItemCode" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ShortText" />
+									<PropertyValue Property="ValueListProperty" String="ShortText" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ItemDescEN" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ItemDescZH" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETIType/HsCode" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="HS Code" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_Hscode" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="HsCodeID" />
+									<PropertyValue Property="ValueListProperty" String="HSCodeID" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="HsCode" />
+									<PropertyValue Property="ValueListProperty" String="HSCode" />
+								</Record>
+								<Record Type="Common.ValueListParameterIn">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="NumberScheme" />
+									<PropertyValue Property="ValueListProperty" String="NumberScheme" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="BOEUnit" />
+									<PropertyValue Property="ValueListProperty" String="BOEUnit" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="BOEUnitExternal" />
+									<PropertyValue Property="ValueListProperty" String="BOEUnitExternal" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETIType/UnitPriceCurrency" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="UnitPriceCurrency" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_DetWaers" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="UnitPriceCurrency" />
+									<PropertyValue Property="ValueListProperty" String="Currncy" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Ktext" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETIType/WeightUnit" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="WeightUnit" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_Detmsehi" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="WeightUnit" />
+									<PropertyValue Property="ValueListProperty" String="ExternalUnit" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="UnitText" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="DimensionText" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETIType/UoM" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="UoM" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_Detmsehi" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="UoM" />
+									<PropertyValue Property="ValueListProperty" String="ExternalUnit" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="UnitText" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="DimensionText" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETIType/BOEUnit" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="BOEUnit" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_Detmsehi" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="BOEUnit" />
+									<PropertyValue Property="ValueListProperty" String="ExternalUnit" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="UnitText" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="DimensionText" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<!-- Item End -->
+			<!-- Header Partner Start -->
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_DET_SRV_Entities/ZCBS_C_DETBP">
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true" />
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_DET_SRV_Entities/Zcbs_C_BPSH">
+				<Annotation Term="Capabilities.FilterRestrictions">
+					<Record>
+						<PropertyValue Property="NonFilterableProperties">
+							<Collection>
+								<PropertyPath>Type</PropertyPath>
+								<PropertyPath>BPKind</PropertyPath>
+								<PropertyPath>BU_Group</PropertyPath>
+								<PropertyPath>BPext</PropertyPath>
+								<PropertyPath>BU_Sort1</PropertyPath>
+								<PropertyPath>BU_SOrt2</PropertyPath>
+								<PropertyPath>Title</PropertyPath>
+								<PropertyPath>Name_Org1</PropertyPath>
+								<PropertyPath>Name_Org2</PropertyPath>
+								<PropertyPath>Name_Org3</PropertyPath>
+								<PropertyPath>Name_Org4</PropertyPath>
+								<PropertyPath>Addrcomm</PropertyPath>
+								<PropertyPath>Langu</PropertyPath>
+								<PropertyPath>Region</PropertyPath>
+								<PropertyPath>Addr_Group</PropertyPath>
+								<PropertyPath>Sort1</PropertyPath>
+								<PropertyPath>Sort2</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETBPType/ParNumber" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Partner Number" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_BPSH" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ParName" />
+									<PropertyValue Property="ValueListProperty" String="ParName" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ParNumber" />
+									<PropertyValue Property="ValueListProperty" String="ParNumber" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Role" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="Country" />
+									<PropertyValue Property="ValueListProperty" String="Country" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="Address" />
+									<PropertyValue Property="ValueListProperty" String="Address" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="AddrNumber" />
+									<PropertyValue Property="ValueListProperty" String="AddrNumber" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ParGUID" />
+									<PropertyValue Property="ValueListProperty" String="Partner_Guid" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<!-- Header Partner End -->
+			<!-- Header Cost Start -->
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_DET_SRV_Entities/ZCBS_C_detCost">
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true" />
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_detCostType/Currency" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Currency" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_DetWaers" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="Currency" />
+									<PropertyValue Property="ValueListProperty" String="Currncy" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Ktext" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<!-- Header Cost End -->
+			<!-- Item Partner Start -->
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_DET_SRV_Entities/ZCBS_C_DETBPI">
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Bool="true" />
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.UpdateRestrictions">
+					<Record Type="Capabilities.UpdateRestrictionsType">
+						<PropertyValue Property="Updatable" Bool="true" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ZCBS_DET_SRV.ZCBS_C_DETBPIType/ParNumber" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Partner Number" />
+						<PropertyValue Property="CollectionPath" String="Zcbs_C_BPSH" />
+						<PropertyValue Property="SearchSupported" Bool="true" />
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ParName" />
+									<PropertyValue Property="ValueListProperty" String="ParName" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ParNumber" />
+									<PropertyValue Property="ValueListProperty" String="ParNumber" />
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Role" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="Country" />
+									<PropertyValue Property="ValueListProperty" String="Country" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="Address" />
+									<PropertyValue Property="ValueListProperty" String="Address" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="AddrNumber" />
+									<PropertyValue Property="ValueListProperty" String="AddrNumber" />
+								</Record>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ParGUID" />
+									<PropertyValue Property="ValueListProperty" String="Partner_Guid" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<!-- Item Partner End -->
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

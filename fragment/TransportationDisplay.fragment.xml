@@ -1,0 +1,137 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	<VBox class="sapUiSmallMargin">
+		<f:SimpleForm
+			editable="false"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="4"
+			labelSpanM="12"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="0"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="3"
+			columnsL="3"
+			columnsM="3"
+			singleContainerFullSize="false" >
+			<f:content>
+				<core:Title text="" />
+				<Label text="{i18n>detailTransportationLabelDepartureCountry}" wrapping="true"
+				required="{= !(${ImportOrExport} === '2' &amp;&amp; ${BusinessType} === '20')}" />
+				<Text text="{DepartureCountryTxt}" />
+				<Label text="{i18n>detailTransportationLabelDeparturePort}" wrapping="true" required="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1'}" />
+				<Text text="{DeparturePortTxt}" />
+				<Label text="{i18n>detailTransportationLabelTransitCountry}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Text text="{TransitCountryTxt}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Label text="{i18n>detailTransportationLabelTransitPort}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Text text="{TransitPortTxt}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Label text="{i18n>detailTransportationLabelDestinationCountry}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Text text="{DestinationCountryTxt}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Label text="{i18n>detailTransportationLabelDestinationPort}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Text text="{DestinationPortTxt}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Label text="{i18n>detailTransportationLabelFinalDestination}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Text text="{FinalDestinationTxt}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Label text="{i18n>detailTransportationLabelShipTo}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Text text="{ShipTo}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+				<Label text="{i18n>detailTransportationLabelProvince}" wrapping="true" visible="{= ${Country} !== 'HK'}" />
+				<Text text="{Province}" visible="{= ${Country} !== 'HK'}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>detailTransportationLabelShipToLocationID}" wrapping="true" visible="{= ${Country} !== 'HK'}" />
+				<Text text="{ShiptoLocationID}" visible="{= ${Country} !== 'HK'}" />
+				<Label text="{i18n>detailTransportationLabelTransportToolNo}" wrapping="true" />
+				<Text text="{TruckNumber}" />
+				<Label text="{i18n>detailTransportationLabelTransportTripNo}" wrapping="true" />
+				<Text text="{TransportTripNo}" />
+				<Label text="{i18n>detailTransportationLabelContainerNo}" wrapping="true" visible="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '10' &amp;&amp; ${ImportOrExport} === '1'}" />
+				<Text text="{ContainerNo}" visible="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '10' &amp;&amp; ${ImportOrExport} === '1'}" />
+				<Label text="{i18n>detailTransportationLabelCNViehicleNo}" wrapping="true" visible="{= ${Country} === 'HK'}" />
+				<Text text="{VehicleNo}" visible="{= ${Country} === 'HK'}" />
+				<Label text="{i18n>detailTransportationLabelExpressTrackingNo}" wrapping="true" />
+				<Text text="{ExpressTrackingNo}" />
+				<Label text="{i18n>detailTransportationLabelMAWB}" wrapping="true" required="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1'}" />
+				<Text text="{MAWB}" />
+				<Label text="{i18n>detailTransportationLabelHAWB}" wrapping="true" required="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1'}" />
+				<Text text="{HAWB}" />
+				<Label text="{i18n>detailTransportationLabelCCRN}" wrapping="true" />
+				<Text text="{CCRN}" />
+				<Label text="{i18n>detailTransportationLabelManifestNo}" wrapping="true" />
+				<Text text="{ManifestNo}" />
+				<Label text="{i18n>detailGeneralLabelCAT}" wrapping="true" visible="{= ${Country} === 'HK'}" />
+				<Text text="{CAT}" visible="{= ${Country} === 'HK'}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>detailTransportationLabelTotalGrossWeight}" wrapping="true" />
+				<ObjectNumber number="{
+						path: 'TotalGrossWeight',
+						type: 'sap.ui.model.type.Float',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 3
+						}
+					}" unit="{WeightUnit}" />
+				<Label text="{i18n>detailTransportationLabelTotalNetWeight}" wrapping="true" />
+				<ObjectNumber number="{
+						path: 'TotalNetWeight',
+						type: 'sap.ui.model.type.Float',
+						formatOptions: {
+							showMeasure: false,
+							minFractionDigits: 3,
+							maxFractionDigits: 3
+						}
+					}" unit="{WeightUnit}" />
+				<Label text="{i18n>detailTransportationLabelTotalVolume}" wrapping="true" />
+				<ObjectNumber number="{
+						path: 'TotalVolume',
+						type: 'sap.ui.model.type.Float',
+						formatOptions: {
+							showMeasure: false
+						}
+					}" unit="{TotalVolumeUnit}" />
+				<Label text="{i18n>detailTransportationLabelPackageType}" wrapping="true" />
+				<Text text="{PackageTypeTxt}" />
+				<Label text="{i18n>detailTransportationLabelTotalPackages}" wrapping="true" />
+				<Text text="{
+						path: 'TotalPackages',
+						type: 'sap.ui.model.type.Float',
+						formatOptions: {
+							showMeasure: false
+						}
+					}" />
+				<Label text="{i18n>detailTransportationLabelHKImportDate}" wrapping="true" visible="{= ${ImportOrExport} === '1'}" required="true" />
+				<Text text="{
+					path: 'detailView>/ImportDate',
+					type: 'sap.ui.model.type.Date',
+					formatOptions: {
+						style: 'medium',
+						UTC: true
+					}
+				}" visible="{= ${ImportOrExport} === '1'}" />
+				<Label text="{i18n>detailTransportationLabelHKDepartureDate}" wrapping="true" visible="{= ${ImportOrExport} === '2'}" required="true" />
+				<Text text="{
+					path: 'detailView>/ExportDate',
+					type: 'sap.ui.model.type.Date',
+					formatOptions: {
+						style: 'medium',
+						UTC: true
+					}
+				}" visible="{= ${ImportOrExport} === '2'}" />
+				<Label text="{i18n>detailTransportationLabelActualShipmentDate}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20')}" />
+				<Text text="{
+					path: 'detailView>/ShippingDate',
+					type: 'sap.ui.model.type.Date',
+					formatOptions: {
+						style: 'medium',
+						UTC: true
+					}
+				}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20')}" />
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,80 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	<VBox class="sapUiSmallMargin">
+		<f:SimpleForm
+			editable="false"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="4"
+			labelSpanM="12"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="0"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="3"
+			columnsL="3"
+			columnsM="3"
+			singleContainerFullSize="false">
+			<f:content>
+				<core:Title text="" />
+				<Label text="{i18n>detailGeneralLabelUDR}" wrapping="true" />
+				<Text text="{UDR}" />
+				<Label text="{i18n>detailGeneralLabelActualBOEAmount}" wrapping="true" visible="{= ${Country} !== 'HK'}" />
+				<ObjectNumber number="{
+						parts: [
+							{path: 'ActualBOEAmount'},
+							{path: 'ActualBOECurrency'}
+						],
+						type: 'sap.ui.model.type.Currency',
+						formatOptions: {
+							showMeasure: false,
+							maxFractionDigits: 2
+						}
+					}" unit="{ActualBOECurrency}" visible="{= ${Country} !== 'HK'}" />
+				<Label text="{i18n>detailGeneralLabelPreDeclarationNo}" wrapping="true" />
+				<Text text="{PreDeclarationNo}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>detailGeneralLabelClearanceStartDate}" wrapping="true" />
+				<Text text="{
+					path: 'ClearanceStartDate',
+					type: 'sap.ui.model.type.Date',
+					formatOptions: {
+						style: 'medium',
+						UTC: true
+					}
+				}" />
+				<Label text="{i18n>detailGeneralLabelClearanceAchieveDate}" wrapping="true" />
+				<Text text="{
+					parts: [
+						{ path: 'ClearanceAchieveDate' }
+					],
+					type: 'sap.ui.model.type.Date',
+					formatter: '.formatter.dateTimeFormatter'
+				}" />
+				<Label text="{i18n>detailGeneralLabelPreDeclarationDate}" wrapping="true" />
+				<Text text="{
+					path: 'PreDeclarationDate',
+					type: 'sap.ui.model.type.Date',
+					formatOptions: {
+						style: 'medium',
+						UTC: true
+					}
+				}" />
+
+				<core:Title text="" />
+				<Label text="{i18n>detailGeneralLabelPAARNo}" wrapping="true" />
+				<Text text="{PAARNo}" />
+				<Label text="{i18n>detailGeneralLabelMFNo}" wrapping="true" />
+				<Text text="{MFNo}" />
+				<Label text="{i18n>detailGeneralLabelDeclarationOperator}" wrapping="true" />
+				<Text text="{DeclarationOperator}" />
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

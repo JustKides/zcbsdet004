@@ -1,0 +1,24 @@
+{
+	"DocTypes": [
+		{
+			"ID": "001",
+			"DocType": "Invoice",
+			"DocDescription": "Invoice"
+		},
+		{
+			"ID": "002",
+			"DocType": "CoO",
+			"DocDescription": "CoO"
+		},
+		{
+			"ID": "003",
+			"DocType": "IntInvWCO",
+			"DocDescription": "Inter-company Invoice with C/O"
+		},
+		{
+			"ID": "004",
+			"DocType": "IntInvWoCO",
+			"DocDescription": "Inter-company Invoice without C/O"
+		}
+	]
+}

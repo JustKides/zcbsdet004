@@ -1,0 +1,28 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Dialog
+		title="Packing List Number"
+		contentHeight="25rem"
+		afterClose="onPackingListNoClose">
+		<subHeader>
+			<Toolbar>
+				<content>
+					<SearchField id="packingListNoSearchField" search="onPackingListNoSearch" width="100%" />
+				</content>
+			</Toolbar>
+		</subHeader>
+		<content>
+			<List
+				id="packingListNoList"
+				noDataText="No Packing List Number Found"
+				growing="true"
+				growingThreshold="5"
+				growingScrollToLoad="true">
+			</List>
+		</content>
+		<endButton>
+			<Button text="{i18n>buttonTextCancel}" press="onPackingListNoClose" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

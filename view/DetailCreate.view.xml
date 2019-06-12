@@ -1,0 +1,1653 @@
+<mvc:View
+	controllerName="huawei.cbs.det004.controller.DetailCreate"
+	xmlns:core="sap.ui.core"
+	xmlns:uxap="sap.uxap"
+	xmlns:layout="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:sf="sap.ui.comp.smartfield"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:st="sap.ui.comp.smarttable"
+	xmlns:table="sap.ui.table"
+	xmlns="sap.m"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+	<uxap:ObjectPageLayout
+		id="detailCreatePage"
+		enableLazyLoading="false"
+		showFooter="true"
+		busy="{detailView>/busy}"
+		busyIndicatorDelay="0">
+		<uxap:headerTitle>
+			<uxap:ObjectPageDynamicHeaderTitle>
+				<uxap:expandedHeading>
+					<Title text="New Declaration Task" wrapping="true" />
+				</uxap:expandedHeading>
+
+				<uxap:snappedHeading>
+					<Title text="New Declaration Task" wrapping="true" />
+				</uxap:snappedHeading>
+
+				<uxap:expandedContent>
+					<ObjectStatus text="{detailView>/BusinessTypeText} {detailView>/ImportOrExportText}" state="None" visible="true" />
+				</uxap:expandedContent>
+
+				<uxap:snappedContent>
+					<ObjectStatus text="{detailView>/BusinessTypeText} {detailView>/ImportOrExportText}" state="None" visible="true" />
+				</uxap:snappedContent>
+
+				<uxap:actions>
+					<HBox binding="{appView>/uiState/actionButtonsInfo/midColumn}">
+						<OverflowToolbarButton type="Transparent" icon="sap-icon://full-screen" tooltip="{i18n>tooltipEnterFullScreenMode}" visible="{= !!${appView>}}" binding="{appView>fullScreen}" press="toggleFullScreen" />
+						<OverflowToolbarButton type="Transparent" icon="sap-icon://exit-full-screen" tooltip="{i18n>tooltipExitFullScreenMode}" visible="{= !!${appView>}}" binding="{appView>exitFullScreen}" press="toggleFullScreen" />
+						<OverflowToolbarButton type="Transparent" icon="sap-icon://decline" tooltip="{i18n>tooltipClose}" press="onCloseDetailPress" />
+					</HBox>
+				</uxap:actions>
+			</uxap:ObjectPageDynamicHeaderTitle>
+		</uxap:headerTitle>
+
+		<uxap:headerContent>
+			<layout:VerticalLayout>
+				<Link text="{CreatedByUser}" textAlign="Begin" width="auto" emphasized="false" subtle="false" />
+				<Link text="{
+					path: 'CreatedDate',
+					type: 'sap.ui.model.type.Date',
+					formatOptions: {
+						style: 'medium',
+						UTC: true
+					}
+				}" textAlign="Begin" width="auto" emphasized="false" subtle="false" />
+				<ObjectStatus title="{i18n>detailObjectLabelStatus}" text="{path: 'Status', formatter: '.formatter.statusTextFormatter'}" state="{detailView>/state}" visible="true" />
+			</layout:VerticalLayout>
+		</uxap:headerContent>
+
+		<uxap:sections>
+			<uxap:ObjectPageSection title="{i18n>detailSectionTitleGeneralInfo}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<form:SimpleForm
+								editable="true"
+								layout="ResponsiveGridLayout"
+								labelSpanXL="4"
+								labelSpanL="4"
+								labelSpanM="12"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="0"
+								emptySpanL="0"
+								emptySpanM="0"
+								emptySpanS="0"
+								columnsXL="3"
+								columnsL="3"
+								columnsM="3"
+								singleContainerFullSize="false" >
+								<form:content>
+									<core:Title text="" />
+									<Label text="{i18n>detailGeneralLabelExternalDocumentNo}" wrapping="true" />
+									<Text text="{ExternalDocumentNo}" />
+									<Label text="{i18n>detailGeneralLabelFulfillmentSource}" wrapping="true" />
+									<ActionSelect
+										id="fulFillmentSourceSelect"
+										forceSelection="false"
+										selectedKey="{FulFillmentSource}"
+										items="{
+											path: '/ZCBS_C_DMTEXT',
+											sorter: { path: 'ValueKey', descending: false },
+											filters: [
+												{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_FULFILLMENT_SOURCE' }
+											]
+										}">
+										<core:Item key="{DomainValue}" text="{ShortText}" />
+									</ActionSelect>
+									<Label text="{i18n>detailGeneralLabelDeclarationEntityType}" wrapping="true" />
+									<ActionSelect
+										id="declarationEntityTypeSelect"
+										forceSelection="false"
+										selectedKey="{DeclarationEntityType}"
+										items="{
+											path: '/ZCBS_C_DetCodeList',
+											sorter: { path: 'Code2', descending: false },
+											filters: [
+												{ path : 'TrTy', operator : 'EQ', value1 : 'EXART'},
+												{ path : 'Code1', operator : 'EQ', value1 : 'ZCUCN'}
+											]
+										}">
+										<core:Item key="{Code2}" text="{Description}" />
+									</ActionSelect>
+									<Label text="{i18n>detailGeneralLabelDeclarationCompany}" wrapping="true" required="true" />
+									<ActionSelect
+										id="declarationCompanySelect"
+										forceSelection="false"
+										showSecondaryValues="true"
+										selectedKey="{CompanyBpID}"
+										change="onDeclarationCompanyChange">
+										<items>
+											<core:ListItem key="{ParNumber}" text="{ParName}" additionalText="{ParNumber}" />
+										</items>
+									</ActionSelect>
+									<Label text="{i18n>detailGeneralLabelTradeMode}" wrapping="true" />
+									<ActionSelect
+										id="tradeModeSelect"
+										forceSelection="false"
+										selectedKey="{TradeMode}"
+										items="{
+											path: '/ZCBS_C_DetCodeList',
+											sorter: { path: 'Code2', descending: false },
+											filters: [
+												{ path : 'TrTy', operator : 'EQ', value1 : 'DCSTA'},
+												{ path : 'Code1', operator : 'EQ', value1 : 'ZCUCN'}
+											]
+										}">
+										<core:Item key="{Code2}" text="{Description}" />
+									</ActionSelect>
+									<Label text="{i18n>detailGeneralLabelCompanyID}" wrapping="true" visible="{= ${Country} === 'HK'}" />
+									<Text text="{CompanyID}" visible="{= ${Country} === 'HK'}" />
+									<Label text="{i18n>detailGeneralLabelBroker}" wrapping="true" visible="{= ${Country} === 'HK'}" />
+									<Text text="{Broker}" visible="{= ${Country} === 'HK'}" />
+									<Label text="{i18n>detailGeneralLabelBGType}" wrapping="true" />
+									<ActionSelect
+										id="bgTypeSelect"
+										forceSelection="false"
+										selectedKey="{BgType}"
+										items="{
+											path: '/ZCBS_C_DMTEXT',
+											sorter: { path: 'ValueKey', descending: false },
+											filters: [
+												{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_BG_TYPE' }
+											]
+										}">
+										<core:Item key="{DomainValue}" text="{ShortText}" />
+									</ActionSelect>
+									<Label text="{i18n>detailGeneralLabelRelatedTransactionFlag}" wrapping="true" />
+									<ActionSelect
+										id="relatedTransactionFlagSelect"
+										forceSelection="false"
+										selectedKey="{RelatedTransactionFlag}"
+										items="{
+											path: 'selectOptions>/SelectOptions',
+											sorter: { path: 'ID', descending: false }
+										}">
+										<core:Item key="{selectOptions>Key}" text="{selectOptions>Text}" />
+									</ActionSelect>
+									<Label text="{i18n>detailGeneralLabelRemarks}" wrapping="true" />
+									<TextArea value="{Remarks}" rows="4" />
+
+									<core:Title text="" />
+									<Label text="{i18n>detailTransportationLabelModeOfTransport}" wrapping="true" required="true" />
+									<ActionSelect
+										id="modeOfTransportSelect"
+										forceSelection="false"
+										selectedKey="{ModeOfTransport}"
+										items="{
+											path: '/ZcbsHMotraSet',
+											sorter: {
+												path: 'Motra',
+												descending: false
+											},
+											filters: [
+												{ path : 'Cuscs', operator : 'EQ', value1 : 'ZCUCN' }
+											]
+										}">
+										<core:Item key="{Motra}" text="{Text1}" />
+									</ActionSelect>
+									<Label text="{i18n>detailGeneralLabelTradeTerm}" wrapping="true" required="{= ${Country} !== 'HK'}" />
+									<ActionSelect
+										id="tradeTermSelect"
+										forceSelection="false"
+										showSecondaryValues="true"
+										selectedKey="{TradeTerm}"
+										items="{
+											path: '/ZcbsHIncotermsSet',
+											sorter: { path: 'Incot', descending: false }
+										}">
+										<items>
+											<core:ListItem key="{Incot}" text="{Incot}" additionalText="{Text1}" />
+										</items>
+									</ActionSelect>
+									<Label text="{i18n>detailGeneralLabelApprover}" wrapping="true" />
+									<Text text="{Approver}" />
+									<Label text="{i18n>detailGeneralLabelPTOChecker}" wrapping="true" />
+									<Input value="{PTOChecker}" />
+									<Label text="{i18n>detailGeneralLabelPTOConfirm}" wrapping="true" />
+									<Select
+										items="{
+											path: 'selectOptions>/SelectOptions',
+											sorter: {
+												path: 'ID',
+												descending: false
+											}
+										}"
+										selectedKey="{PTOConfirm}"
+										forceSelection="false">
+										<core:Item key="{selectOptions>Key}" text="{selectOptions>Text}" />
+									</Select>
+									<Label text="{i18n>detailGeneralLabelKAD}" wrapping="true" visible="{= ${Country} === 'SA'}" />
+									<ActionSelect
+										id="kadSelect"
+										forceSelection="false"
+										selectedKey="{KAD}"
+										items="{
+											path: '/ZCBS_C_DMTEXT',
+											sorter: { path: 'ValueKey', descending: false },
+											filters: [
+												{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_KAD' }
+											]
+										}"
+										visible="{= ${Country} === 'SA'}">
+										<core:Item key="{DomainValue}" text="{ShortText}" />
+									</ActionSelect>
+									<Label text="{i18n>detailGeneralLabelConsignmentNotes}" wrapping="true" />
+									<TextArea value="{ConsignmentNotes}" rows="4" />
+
+									<core:Title text="" />
+									<Label text="{i18n>detailGeneralLabelInvoiceAmount}" wrapping="true" />
+									<ObjectNumber number="{
+											parts: [
+												{path: 'InvoiceAmount'},
+												{path: 'InvoiceCurrency'}
+											],
+											type: 'sap.ui.model.type.Currency',
+											formatOptions: {
+												showMeasure: false,
+												maxFractionDigits: 2
+											}
+										}" unit="{InvoiceCurrency}" />
+									<Label text="{i18n>detailGeneralLabelInvoiceCurrency}" wrapping="true" required="true" />
+									<sf:SmartField id="invoiceCurrencyInput" value="{InvoiceCurrency}" change="onInvoiceCurrencyChange" />
+									<Label text="{i18n>detailGeneralLabelHTMReferenceAmount}" wrapping="true" />
+									<ObjectNumber number="{
+											parts: [
+												{path: 'HTMReferenceAmount'},
+												{path: 'HTMReferenceAmountCurrency'}
+											],
+											type: 'sap.ui.model.type.Currency',
+											formatOptions: {
+												showMeasure: false,
+												maxFractionDigits: 2
+											}
+										}" unit="{HTMReferenceAmountCurrency}" />
+									<Label text="{i18n>detailGeneralLabelFreightAmount}" wrapping="true" />
+									<ObjectNumber number="{
+											parts: [
+												{path: 'FreightAmount'},
+												{path: 'FreightAmountCurrency'}
+											],
+											type: 'sap.ui.model.type.Currency',
+											formatOptions: {
+												showMeasure: false,
+												maxFractionDigits: 2
+											}
+										}" unit="{FreightAmountCurrency}" visible="{= !${detailView>/insuranceFreightFlag}}" />
+									<Input id="freightAmountInput" value="{
+											path: 'FreightAmount',
+											type: 'sap.ui.model.type.Float',
+											formatOptions: {
+												showMeasure: false,
+												maxFractionDigits: 2
+											}
+										}" visible="{detailView>/insuranceFreightFlag}">
+										<layoutData>
+											<layout:GridData span="XL6 L6 M10 S10" />
+										</layoutData>
+									</Input>
+									<Text text="{FreightAmountCurrency}" visible="{detailView>/insuranceFreightFlag}" class="sapUiCompSmartFieldUnit">
+										<layoutData>
+											<layout:GridData span="XL2 L2 M2 S2" />
+										</layoutData>
+									</Text>
+									<Label text="{i18n>detailGeneralLabelHTMReferenceFreight}" wrapping="true" />
+									<ObjectNumber number="{
+											parts: [
+												{path: 'HTMReferenceFreight'},
+												{path: 'HTMReferenceFreightCurrency'}
+											],
+											type: 'sap.ui.model.type.Currency',
+											formatOptions: {
+												showMeasure: false,
+												maxFractionDigits: 2
+											}
+										}" unit="{HTMReferenceFreightCurrency}" />
+									<Label text="{i18n>detailGeneralLabelInsuranceAmount}" wrapping="true" />
+									<ObjectNumber number="{
+											parts: [
+												{path: 'InsuranceAmount'},
+												{path: 'InsuranceAmountCurrency'}
+											],
+											type: 'sap.ui.model.type.Currency',
+											formatOptions: {
+												showMeasure: false,
+												maxFractionDigits: 2
+											}
+										}" unit="{InsuranceAmountCurrency}" visible="{= !${detailView>/insuranceFreightFlag}}" />
+									<Input id="insuranceAmountInput" value="{
+											path: 'InsuranceAmount',
+											type: 'sap.ui.model.type.Float',
+											formatOptions: {
+												showMeasure: false,
+												maxFractionDigits: 2
+											}
+										}" visible="{detailView>/insuranceFreightFlag}">
+										<layoutData>
+											<layout:GridData span="XL6 L6 M10 S10" />
+										</layoutData>
+									</Input>
+									<Text text="{InsuranceAmountCurrency}" visible="{detailView>/insuranceFreightFlag}" class="sapUiCompSmartFieldUnit">
+										<layoutData>
+											<layout:GridData span="XL2 L2 M2 S2" />
+										</layoutData>
+									</Text>
+									<Label text="{i18n>detailGeneralLabelHTMReferenceInsurance}" wrapping="true" />
+									<ObjectNumber number="{
+											parts: [
+												{path: 'HTMReferenceInsurance'},
+												{path: 'HTMReferenceInsuranceCurrency'}
+											],
+											type: 'sap.ui.model.type.Currency',
+											formatOptions: {
+												showMeasure: false,
+												maxFractionDigits: 2
+											}
+										}" unit="{HTMReferenceInsuranceCurrency}" />
+									<Label text="{i18n>detailGeneralLabelFOBAmount}" wrapping="true" />
+									<ObjectNumber number="{
+											parts: [
+												{path: 'FOBAmount'},
+												{path: 'FOBAmountCurrency'}
+											],
+											type: 'sap.ui.model.type.Currency',
+											formatOptions: {
+												showMeasure: false
+											}
+										}" unit="{FOBAmountCurrency}" />
+									<Label text="{i18n>detailGeneralLabelBOEAmount}" wrapping="true" />
+									<ObjectNumber number="{
+											parts: [
+												{path: 'BOEAmount'},
+												{path: 'BOECurrency'}
+											],
+											type: 'sap.ui.model.type.Currency',
+											formatOptions: {
+												showMeasure: false
+											}
+										}" unit="{BOECurrency}" />
+									<Label text="{i18n>detailGeneralLabelBOECurrency}" wrapping="true" required="true" />
+									<sf:SmartField id="BOECurrencyInput" value="{BOECurrency}" />
+									<Label text="{i18n>detailGeneralLabelExchangeRate}" wrapping="true" />
+									<sf:SmartField id="exchangeRateInput" change="onExchangeRateChange" value="{
+										path: 'ExchangeRate',
+										type: 'sap.ui.model.type.Float',
+										formatOptions: {
+											showMeasure: false,
+											maxFractionDigits: 8
+										}
+									}" />
+								</form:content>
+							</form:SimpleForm>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<!-- <uxap:ObjectPageSection title="{i18n>detailSectionTitleActualDeclarationInfo}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<form:SimpleForm
+								editable="false"
+								layout="ResponsiveGridLayout"
+								labelSpanXL="4"
+								labelSpanL="4"
+								labelSpanM="12"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="0"
+								emptySpanL="0"
+								emptySpanM="0"
+								emptySpanS="0"
+								columnsXL="3"
+								columnsL="3"
+								columnsM="3"
+								singleContainerFullSize="false">
+								<form:content>
+									<core:Title text="" />
+									<Label text="{i18n>detailGeneralLabelUDR}" wrapping="true" />
+									<Text text="{UDR}" />
+									<Label text="{i18n>detailGeneralLabelActualBOEAmount}" wrapping="true" />
+									<ObjectNumber number="{ActualBOEAmount}" unit="{ActualBOECurrency}" />
+									<Label text="{i18n>detailGeneralLabelPreDeclarationNo}" wrapping="true" />
+									<Text text="{PreDeclarationNo}" />
+
+									<core:Title text="" />
+									<Label text="{i18n>detailGeneralLabelClearanceStartDate}" wrapping="true" />
+									<Text text="{
+										path: 'ClearanceStartDate',
+										type: 'sap.ui.model.type.Date',
+										formatOptions: {
+											style: 'medium',
+											UTC: true
+										}
+									}" />
+									<Label text="{i18n>detailGeneralLabelClearanceAchieveDate}" wrapping="true" />
+									<Text text="{
+										path: 'ClearanceAchieveDate',
+										type: 'sap.ui.model.type.Date',
+										formatOptions: {
+											style: 'medium',
+											UTC: true
+										}
+									}" />
+									<Label text="{i18n>detailGeneralLabelPreDeclarationDate}" wrapping="true" />
+									<Text text="{
+										path: 'PreDeclarationDate',
+										type: 'sap.ui.model.type.Date',
+										formatOptions: {
+											style: 'medium',
+											UTC: true
+										}
+									}" />
+
+									<core:Title text="" />
+									<Label text="{i18n>detailGeneralLabelPAARNo}" wrapping="true" required="false" />
+									<Text text="{PAARNo}" />
+									<Label text="{i18n>detailGeneralLabelMFNo}" wrapping="true" required="false" />
+									<Text text="{MFNo}" />
+									<Label text="{i18n>detailGeneralLabelDeclarationOperator}" wrapping="true" />
+									<Text text="{DeclarationOperator}" />
+								</form:content>
+							</form:SimpleForm>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection> -->
+
+			<uxap:ObjectPageSection title="{i18n>detailSectionTitleDocument}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<st:SmartTable
+								id="documentsSmartTable"
+								entitySet="ZCBS_C_DETDOC"
+								enableAutoBinding="true"
+								tableBindingPath="to_DETDOC"
+								tableType="Table"
+								useExportToExcel="false"
+								useVariantManagement="false"
+								useTablePersonalisation="true"
+								showTablePersonalisation="false"
+								showRowCount="true"
+								persistencyKey="huawei.cbs.det004.Detail.Document.Table"
+								requestAtLeastFields="LegdocID,HeaderID,DocumentName,DocumentSeq,DocumentNo">
+
+								<st:customToolbar>
+									<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+										<content>
+											<ToolbarSpacer />
+											<OverflowToolbarButton text="{i18n>buttonTextSettings}" tooltip="{i18n>buttonTextSettings}" type="Transparent" icon="sap-icon://drop-down-list" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="onDocumentSettings" />
+											<OverflowToolbarButton text="{i18n>buttonTextAdd}" tooltip="{i18n>buttonTextAdd}" type="Transparent" icon="sap-icon://add" iconFirst="true" enabled="true" visible="{= ${uiView>/DET_MGMT_D_DOC_ADD} === 'Y'}" iconDensityAware="false" press="onDocumentAdd" />
+											<OverflowToolbarButton text="{i18n>buttonTextDelete}" tooltip="{i18n>buttonTextDelete}" type="Transparent" icon="sap-icon://delete" iconFirst="true" enabled="{= ${detailView>/documentSelected}}" visible="{= ${uiView>/DET_MGMT_D_DOC_DELETE} === 'Y'}" iconDensityAware="false" press="onDocumentDelete" />
+										</content>
+									</OverflowToolbar>
+								</st:customToolbar>
+
+								<!-- layout data used to make the table growing but the filter bar fixed -->
+								<st:layoutData>
+									<FlexItemData growFactor="1" baseSize="0%" />
+								</st:layoutData>
+
+								<table:Table
+									id="documentsList"
+									rows="{to_DETDOC}"
+									selectionMode="MultiToggle"
+									showNoData="false"
+									visibleRowCount="5"
+									enableSelectAll="true"
+									rowSelectionChange="onDocumentSelectionChange"
+									threshold="5"
+									enableBusyIndicator="true">
+
+									<table:noData>
+										<BusyIndicator class="sapUiMediumMargin" />
+									</table:noData>
+
+									<table:columns>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETDOCType/DocumentName/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETDOCType/DocumentName/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"DocumentName","leadingProperty":"DocumentName","filterProperty":"DocumentName","sortProperty":"DocumentName"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETDOCType/DocumentName/@sap:label}" />
+											<table:template>
+												<Text text="{DocumentName}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETDOCType/DocumentNo/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETDOCType/DocumentNo/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"DocumentNo","leadingProperty":"DocumentNo","filterProperty":"DocumentNo","sortProperty":"DocumentNo"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETDOCType/DocumentNo/@sap:label}" />
+											<table:template>
+												<Text text="{DocumentNo}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Center" width="4rem" visible="{detailView>/editable}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"DocumentSeq","leadingProperty":"DocumentSeq","filterProperty":"DocumentSeq","sortProperty":"DocumentSeq"}' />
+											</table:customData>
+											<Label text="" />
+											<table:template>
+												<table:RowAction>
+													<table:RowActionItem icon="sap-icon://edit" text="Edit" press="onDocumentEdit" />
+												</table:RowAction>
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</st:SmartTable>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<uxap:ObjectPageSection title="{i18n>detailSectionTitlePartnerInfo}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<st:SmartTable
+								id="partnersSmartTable"
+								entitySet="ZCBS_C_DETBP"
+								enableAutoBinding="true"
+								tableBindingPath="to_DETBP"
+								tableType="Table"
+								useExportToExcel="false"
+								useVariantManagement="false"
+								useTablePersonalisation="true"
+								showTablePersonalisation="false"
+								showRowCount="true"
+								beforeRebindTable="onBeforeRebindPartnerTable"
+								persistencyKey="huawei.cbs.det004.Detail.Partner.Table"
+								requestAtLeastFields="ParObjectTypeDesc,ParNumber,ParName,Address,ParObjectType,ParID,ParGUID,HeaderID">
+
+								<st:customToolbar>
+									<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+										<content>
+											<ToolbarSpacer />
+											<OverflowToolbarButton text="{i18n>buttonTextAdd}" type="Transparent" icon="sap-icon://add" iconFirst="true" enabled="true" visible="{= ${uiView>/DET_MGMT_D_PARTNER_ADD} === 'Y'}" iconDensityAware="false" press="onPartnerAdd" />
+											<OverflowToolbarButton text="{i18n>buttonTextDelete}" type="Transparent" icon="sap-icon://delete" iconFirst="true" enabled="{= ${detailView>/partnerSelected}}" visible="{= ${uiView>/DET_MGMT_D_PARTNER_DELETE} === 'Y'}" iconDensityAware="false" press="onPartnerDelete" />
+										</content>
+									</OverflowToolbar>
+								</st:customToolbar>
+
+								<!-- layout data used to make the table growing but the filter bar fixed -->
+								<st:layoutData>
+									<FlexItemData growFactor="1" baseSize="0%" />
+								</st:layoutData>
+
+								<table:Table
+									id="partnersList"
+									rows="{to_DETBP}"
+									selectionMode="MultiToggle"
+									showNoData="false"
+									visibleRowCount="5"
+									enableSelectAll="true"
+									rowSelectionChange="onPartnerSelectionChange"
+									threshold="5"
+									enableBusyIndicator="true"
+									ariaLabelledBy="title">
+
+									<table:noData>
+										<BusyIndicator class="sapUiMediumMargin" />
+									</table:noData>
+
+									<table:columns>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETBPType/ParObjectTypeDesc/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETBPType/ParObjectTypeDesc/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ParObjectTypeDesc","leadingProperty":"ParObjectTypeDesc","filterProperty":"ParObjectTypeDesc","sortProperty":"ParObjectTypeDesc"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETBPType/ParObjectTypeDesc/@sap:label}" />
+											<table:template>
+												<Text text="{ParObjectTypeDesc}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETBPType/ParNumber/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETBPType/ParNumber/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ParNumber","leadingProperty":"ParNumber","filterProperty":"ParNumber","sortProperty":"ParNumber"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETBPType/ParNumber/@sap:label}" />
+											<table:template>
+												<Text text="{ParNumber}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETBPType/ParName/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETBPType/ParName/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ParName","leadingProperty":"ParName","filterProperty":"ParName","sortProperty":"ParName"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETBPType/ParName/@sap:label}" />
+											<table:template>
+												<Text text="{ParName}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETBPType/Address/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETBPType/Address/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Address","leadingProperty":"Address","filterProperty":"Address","sortProperty":"Address"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETBPType/Address/@sap:label}" />
+											<table:template>
+												<Text text="{Address}" />
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</st:SmartTable>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<uxap:ObjectPageSection title="{i18n>detailSectionTitleTransportation}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<form:SimpleForm
+								editable="true"
+								layout="ResponsiveGridLayout"
+								labelSpanXL="4"
+								labelSpanL="4"
+								labelSpanM="12"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="0"
+								emptySpanL="0"
+								emptySpanM="0"
+								emptySpanS="0"
+								columnsXL="3"
+								columnsL="3"
+								columnsM="3"
+								singleContainerFullSize="false" >
+								<form:content>
+									<core:Title text="" />
+									<Label text="{i18n>detailTransportationLabelDepartureCountry}" wrapping="true" required="true" />
+									<sf:SmartField id="departureCountrySelect" value="{DepartureCountry}" />
+									<Label text="{i18n>detailTransportationLabelDeparturePort}" wrapping="true" required="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1'}" />
+									<HBox>
+										<sf:SmartField id="departurePortSelect" value="{DeparturePort}" change="onDeparturePortChange" innerControlsCreated="onInnerControlsCreated" />
+										<layoutData>
+											<layout:GridData span="XL3 L3 M3 S3" />
+										</layoutData>
+									</HBox>
+									<Input id="departurePortTxtInput" value="{DeparturePortTxt}" showValueHelp="true" class="iconClose departure" valueHelpRequest="onDeparturePortClear">
+										<layoutData>
+											<layout:GridData span="XL5 L5 M9 S9" />
+										</layoutData>
+									</Input>
+									<Label text="{i18n>detailTransportationLabelTransitCountry}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+									<sf:SmartField id="transitCountrySelect" value="{TransitCountry}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+									<Label text="{i18n>detailTransportationLabelTransitPort}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+									<HBox visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+										<sf:SmartField id="transitPortSelect" value="{TransitPort}" innerControlsCreated="onInnerControlsCreated" />
+										<layoutData>
+											<layout:GridData span="XL3 L3 M3 S3" />
+										</layoutData>
+									</HBox>
+									<Input id="transitPortTxtInput" value="{TransitPortTxt}" showValueHelp="true" class="iconClose transit" valueHelpRequest="onTransitPortClear" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+										<layoutData>
+											<layout:GridData span="XL5 L5 M9 S9" />
+										</layoutData>
+									</Input>
+									<Label text="{i18n>detailTransportationLabelDestinationCountry}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+									<sf:SmartField id="destinationCountrySelect" value="{DestinationCountry}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+									<Label text="{i18n>detailTransportationLabelDestinationPort}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+									<HBox visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+										<sf:SmartField id="destinationPortSelect" value="{DestinationPort}" innerControlsCreated="onInnerControlsCreated" />
+										<layoutData>
+											<layout:GridData span="XL3 L3 M3 S3" />
+										</layoutData>
+									</HBox>
+									<Input id="destinationPortTxtInput" value="{DestinationPortTxt}" showValueHelp="true" class="iconClose destination" valueHelpRequest="onDestinationPortClear" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+										<layoutData>
+											<layout:GridData span="XL5 L5 M9 S9" />
+										</layoutData>
+									</Input>
+									<Label text="{i18n>detailTransportationLabelFinalDestination}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+									<HBox visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+										<sf:SmartField id="finalDestinationSelect" value="{FinalDestination}" innerControlsCreated="onInnerControlsCreated" />
+										<layoutData>
+											<layout:GridData span="XL3 L3 M3 S3" />
+										</layoutData>
+									</HBox>
+									<Input id="finalDestinationTxtInput" value="{FinalDestinationTxt}" showValueHelp="true" class="iconClose final" valueHelpRequest="onFinalDestinationClear" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}">
+										<layoutData>
+											<layout:GridData span="XL5 L5 M9 S9" />
+										</layoutData>
+									</Input>
+									<Label text="{i18n>detailTransportationLabelShipTo}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+									<Text text="{ShipTo}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+									<Label text="{i18n>detailTransportationLabelProvince}" wrapping="true" visible="{= ${Country} !== 'HK'}" />
+									<Input value="{Province}" visible="{= ${Country} !== 'HK'}" />
+
+									<core:Title text="" />
+									<Label text="{i18n>detailTransportationLabelShipToLocationID}" wrapping="true" visible="{= ${Country} !== 'HK'}" />
+									<Input value="{ShiptoLocationID}" visible="{= ${Country} !== 'HK'}" />
+									<Label text="{i18n>detailTransportationLabelTransportToolNo}" wrapping="true" />
+									<Input value="{TransportToolNO}" />
+									<Label text="{i18n>detailTransportationLabelTransportTripNo}" wrapping="true" />
+									<Input value="{TransportTripNo}" />
+									<Label text="{i18n>detailTransportationLabelContainerNo}" wrapping="true" visible="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '10' &amp;&amp; ${ImportOrExport} === '1'}" />
+									<Input value="{ContainerNo}" visible="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '10' &amp;&amp; ${ImportOrExport} === '1'}" />
+									<Label text="{i18n>detailTransportationLabelCNViehicleNo}" wrapping="true" visible="{= ${Country} === 'HK'}" />
+									<Input value="{CNViehicleNo}" visible="{= ${Country} === 'HK'}" />
+									<Label text="{i18n>detailTransportationLabelExpressTrackingNo}" wrapping="true" />
+									<Input value="{ExpressTrackingNo}" />
+									<Label text="{i18n>detailTransportationLabelMAWB}" wrapping="true" required="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1'}" />
+									<Input id="mawbInput" value="{MAWB}" />
+									<Label text="{i18n>detailTransportationLabelHAWB}" wrapping="true" required="{= ${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1'}" />
+									<Input id="hawbInput" value="{HAWB}" />
+									<Label text="{i18n>detailTransportationLabelCCRN}" wrapping="true" />
+									<Input value="{CCRN}" />
+									<Label text="{i18n>detailTransportationLabelManifestNo}" wrapping="true" />
+									<Input value="{ManifestNo}" />
+									<Label text="{i18n>detailGeneralLabelCAT}" wrapping="true" visible="{= ${Country} === 'HK'}" />
+									<ActionSelect
+										id="catSelect"
+										forceSelection="false"
+										selectedKey="{CAT}"
+										items="{
+											path: '/ZcbsHCatSet',
+											sorter: { path: 'CatCode', descending: false }
+										}" visible="{= ${Country} === 'HK'}">
+										<core:ListItem key="{CatCode}" text="{CatCode}" />
+									</ActionSelect>
+
+									<core:Title text="" />
+									<Label text="{i18n>detailTransportationLabelTotalGrossWeight}" wrapping="true" />
+									<sf:SmartField id="totalGrossWeightInput" value="{
+											path: 'TotalGrossWeight',
+											type: 'sap.ui.model.type.Float',
+											formatOptions: {
+												showMeasure: false,
+												maxFractionDigits: 3
+											}
+										}" />
+									<Label text="{i18n>detailTransportationLabelTotalNetWeight}" wrapping="true" />
+									<sf:SmartField id="totalNetWeightInput" value="{
+											path: 'TotalNetWeight',
+											type: 'sap.ui.model.type.Float',
+											formatOptions: {
+												showMeasure: false,
+												minFractionDigits: 3,
+												maxFractionDigits: 3
+											}
+										}" />
+									<Label text="{i18n>detailTransportationLabelTotalVolume}" wrapping="true" />
+									<sf:SmartField id="totalVolumeInput" value="{
+											path: 'TotalVolume',
+											type: 'sap.ui.model.type.Float',
+											formatOptions: {
+												showMeasure: false
+											}
+										}" />
+									<Label text="{i18n>detailTransportationLabelPackageType}" wrapping="true" />
+									<ActionSelect
+										id="packageTypeSelect"
+										forceSelection="false"
+										selectedKey="{PackageType}"
+										items="{
+											path: '/ZCBS_C_DMTEXT',
+											sorter: { path: 'ValueKey', descending: false },
+											filters: [
+												{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_BOX_MATERIAL' }
+											]
+										}">
+										<core:Item key="{DomainValue}" text="{ShortText}" />
+									</ActionSelect>
+									<Label text="{i18n>detailTransportationLabelTotalPackages}" wrapping="true" />
+									<Text text="{
+											path: 'TotalPackages',
+											type: 'sap.ui.model.type.Float',
+											formatOptions: {
+												showMeasure: false
+											}
+										}" />
+									<Label text="{i18n>detailTransportationLabelHKImportDate}" wrapping="true" visible="{= ${ImportOrExport} === '1'}" required="true" />
+									<DatePicker id="importDatePicker" value="{
+										path: 'detailView>/ImportDate',
+										type: 'sap.ui.model.type.Date',
+										formatOptions: {
+											style: 'medium',
+											UTC: true
+										}
+									}" visible="{= ${ImportOrExport} === '1'}" />
+									<Label text="{i18n>detailTransportationLabelHKDepartureDate}" wrapping="true" visible="{= ${ImportOrExport} === '2'}" required="true" />
+									<DatePicker id="departureDatePicker" value="{
+										path: 'detailView>/ExportDate',
+										type: 'sap.ui.model.type.Date',
+										formatOptions: {
+											style: 'medium',
+											UTC: true
+										}
+									}" visible="{= ${ImportOrExport} === '2'}" />
+									<Label text="{i18n>detailTransportationLabelActualShipmentDate}" wrapping="true" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+									<DatePicker value="{
+										path: 'detailView>/ShippingDate',
+										type: 'sap.ui.model.type.Date',
+										formatOptions: {
+											style: 'medium',
+											UTC: true
+										}
+									}" visible="{= !(${Country} === 'HK' &amp;&amp; ${BusinessType} === '20' &amp;&amp; ${ImportOrExport} === '1')}" />
+								</form:content>
+							</form:SimpleForm>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<uxap:ObjectPageSection title="{i18n>detailSectionTitleLogisticsCost}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection title="Tax">
+						<uxap:blocks>
+							<st:SmartTable
+								id="taxCostSmartTable"
+								entitySet="ZCBS_C_detCost"
+								tableBindingPath="to_COST"
+								enableAutoBinding="true"
+								tableType="Table"
+								useExportToExcel="false"
+								useVariantManagement="false"
+								useTablePersonalisation="true"
+								showTablePersonalisation="false"
+								showRowCount="true"
+								beforeRebindTable="onBeforeRebindTaxTable"
+								persistencyKey="huawei.cbs.det004.Detail.Cost.Tax.Table"
+								requestAtLeastFields="Guid_Legculc,HeaderID,Description,Unit_Price,Currency,Quantity,Calc_Rule,SystemAmount,ActualAmount,Difference,Comments,Status,StatusText">
+
+								<!-- layout data used to make the table growing but the filter bar fixed -->
+								<st:layoutData>
+									<FlexItemData growFactor="1" baseSize="0%" />
+								</st:layoutData>
+
+								<table:Table
+									id="taxCostsList"
+									rows="{to_COST}"
+									selectionMode="None"
+									showNoData="false"
+									visibleRowCount="5"
+									enableSelectAll="true"
+									threshold="5"
+									enableBusyIndicator="true"
+									ariaLabelledBy="title">
+
+									<table:noData>
+										<BusyIndicator class="sapUiMediumMargin" />
+									</table:noData>
+
+									<table:columns>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Description/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Description/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Description","leadingProperty":"Description","filterProperty":"Description","sortProperty":"Description"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostType/Description/@sap:label}" />
+											<table:template>
+												<Text text="{Description}" app:mydata="{Guid_Legculc}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Unit_Price/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Unit_Price/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Unit_Price","leadingProperty":"Unit_Price","filterProperty":"Unit_Price","sortProperty":"Unit_Price"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostType/Unit_Price/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'Unit_Price'},
+															{path: 'Currency'}
+														],
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false
+														}
+													}"
+													unit="{Currency}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Quantity/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Quantity/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Quantity","leadingProperty":"Quantity","filterProperty":"Quantity","sortProperty":"Quantity"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostType/Quantity/@sap:label}" />
+											<table:template>
+												<Text text="{
+														path: 'Quantity',
+														type: 'sap.ui.model.type.Float',
+														formatOptions: {
+															showMeasure: false
+														}
+													}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Calc_Rule/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Calc_Rule/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Calc_Rule","leadingProperty":"Calc_Rule","filterProperty":"Calc_Rule","sortProperty":"Calc_Rule"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostType/Calc_Rule/@sap:label}" />
+											<table:template>
+												<Text text="{Calc_Rule}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/SystemAmount/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/SystemAmount/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"SystemAmount","leadingProperty":"SystemAmount","additionalProperty":"Currency","filterProperty":"SystemAmount","sortProperty":"SystemAmount"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostType/SystemAmount/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'SystemAmount'},
+															{path: 'Currency'}
+														],
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false
+														}
+													}"
+													unit="{Currency}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/ActualAmount/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/ActualAmount/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ActualAmount","leadingProperty":"ActualAmount","additionalProperty":"Currency","filterProperty":"ActualAmount","sortProperty":"ActualAmount"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostType/ActualAmount/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'ActualAmount'},
+															{path: 'Currency'}
+														],
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false
+														}
+													}"
+													unit="{Currency}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Difference/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Difference/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Difference","leadingProperty":"Difference","filterProperty":"Difference","sortProperty":"Difference"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostType/Difference/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'SystemAmount'},
+															{path: 'ActualAmount'},
+															{path: 'Currency'}
+														],
+														formatter: '.formatter.calculateAmountDifference'
+													}"
+													unit="{Currency}"
+													state="{
+														parts: [
+															{path: 'SystemAmount'},
+															{path: 'ActualAmount'}
+														],
+														formatter: '.formatter.calculateAmountDifferenceState'
+													}"
+													visible="{= ${SystemAmount} !== null &amp;&amp; ${ActualAmount} !== null}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Comments/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Comments/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Comments","leadingProperty":"Comments","filterProperty":"Comments","sortProperty":"Comments"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostType/Comments/@sap:label}" />
+											<table:template>
+												<Text text="{Comments}" app:mydata="" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/StatusText/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/StatusText/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Status","leadingProperty":"Status","additionalProperty":"StatusText","filterProperty":"Status","sortProperty":"Status"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostType/Status/@sap:label}" />
+											<table:template>
+												<ObjectStatus text="{StatusText}" app:mydata="{Status}" state="None" />
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</st:SmartTable>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+
+					<uxap:ObjectPageSubSection title="Fee">
+						<uxap:blocks>
+							<VBox>
+								<form:SimpleForm
+									editable="true"
+									layout="ResponsiveGridLayout"
+									labelSpanXL="4"
+									labelSpanL="4"
+									labelSpanM="12"
+									labelSpanS="12"
+									adjustLabelSpan="false"
+									emptySpanXL="0"
+									emptySpanL="0"
+									emptySpanM="0"
+									emptySpanS="0"
+									columnsXL="3"
+									columnsL="3"
+									columnsM="3"
+									singleContainerFullSize="false">
+									<form:content>
+										<core:Title text="" />
+										<Label text="{i18n>detailGeneralLabelQuotationNo}" wrapping="true" />
+										<Input
+											id="quotationNoInput"
+											class="cbsQuotationNoInput"
+											showValueHelp="true"
+											valueHelpRequest="onQuotationValueHelpRequest"
+											valueHelpOnly="true"
+											value="{QuotationNo}" />
+										<Button text="Clear Quotation"
+												press="onClearQuotation">
+											<layoutData>
+												<FlexItemData growFactor="1" />
+											</layoutData>
+										</Button>
+									</form:content>
+								</form:SimpleForm>
+
+								<st:SmartTable
+									id="feeCostSmartTable"
+									entitySet="ZCBS_C_detCost"
+									tableBindingPath="to_COST"
+									enableAutoBinding="true"
+									tableType="Table"
+									useExportToExcel="false"
+									useVariantManagement="false"
+									useTablePersonalisation="true"
+									showTablePersonalisation="false"
+									showRowCount="true"
+									beforeRebindTable="onBeforeRebindFeeTable"
+									persistencyKey="huawei.cbs.det004.Detail.Cost.Fee.Table"
+									requestAtLeastFields="Guid_Legculc,HeaderID,Description,Unit_Price,Currency,Quantity,Calc_Rule,FirstUOM,SecondUOM,SystemAmount,ActualAmount,Difference,Comments,Status,StatusText,Tlc_Aart">
+
+									<!-- layout data used to make the table growing but the filter bar fixed -->
+									<st:layoutData>
+										<FlexItemData growFactor="1" baseSize="0%" />
+									</st:layoutData>
+
+									<table:Table
+										id="feeCostsList"
+										rows="{to_COST}"
+										selectionMode="MultiToggle"
+										showNoData="false"
+										visibleRowCount="5"
+										enableSelectAll="true"
+										threshold="5"
+										rowSelectionChange="onFeeCostSelectionChange"
+										enableBusyIndicator="true"
+										ariaLabelledBy="title">
+
+										<table:noData>
+											<BusyIndicator class="sapUiMediumMargin" />
+										</table:noData>
+
+										<table:columns>
+											<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Description/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Description/@maxLength} > 9 ? '10rem' : '5rem')}">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"Description","leadingProperty":"Description","filterProperty":"Description","sortProperty":"Description"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/Description/@sap:label}" />
+												<table:template>
+													<Text text="{Description}" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Unit_Price/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Unit_Price/@maxLength} > 9 ? '10rem' : '5rem')}">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"Unit_Price","leadingProperty":"Unit_Price","filterProperty":"Unit_Price","sortProperty":"Unit_Price"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/Unit_Price/@sap:label}" />
+												<table:template>
+													<ObjectNumber number="{
+															parts: [
+																{path: 'Unit_Price'},
+																{path: 'Currency'}
+															],
+															type: 'sap.ui.model.type.Currency',
+															formatOptions: {
+																showMeasure: false
+															}
+														}"
+														unit="{Currency}" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Quantity/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Quantity/@maxLength} > 9 ? '10rem' : '5rem')}">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"Quantity","leadingProperty":"Quantity","filterProperty":"Quantity","sortProperty":"Quantity"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/Quantity/@sap:label}" />
+												<table:template>
+													<Text text="{
+															path: 'Quantity',
+															type: 'sap.ui.model.type.Float',
+															formatOptions: {
+																showMeasure: false
+															}
+														}" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Calc_Rule/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Calc_Rule/@maxLength} > 9 ? '10rem' : '5rem')}">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"Calc_Rule","leadingProperty":"Calc_Rule","filterProperty":"Calc_Rule","sortProperty":"Calc_Rule"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/Calc_Rule/@sap:label}" />
+												<table:template>
+													<Text text="{Calc_Rule}" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/FirstUOM/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/FirstUOM/@maxLength} > 9 ? '10rem' : '5rem')}">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"FirstUOM","leadingProperty":"FirstUOM","filterProperty":"FirstUOM","sortProperty":"FirstUOM"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/FirstUOM/@sap:label}" />
+												<table:template>
+													<Text text="{FirstUOM}" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/SecondUOM/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/SecondUOM/@maxLength} > 9 ? '10rem' : '5rem')}">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"SecondUOM","leadingProperty":"SecondUOM","filterProperty":"SecondUOM","sortProperty":"SecondUOM"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/SecondUOM/@sap:label}" />
+												<table:template>
+													<Text text="{SecondUOM}" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/SystemAmount/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/SystemAmount/@maxLength} > 9 ? '10rem' : '5rem')}">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"SystemAmount","leadingProperty":"SystemAmount","additionalProperty":"Currency","filterProperty":"SystemAmount","sortProperty":"SystemAmount"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/SystemAmount/@sap:label}" />
+												<table:template>
+													<ObjectNumber number="{
+															parts: [
+																{path: 'SystemAmount'},
+																{path: 'Currency'}
+															],
+															type: 'sap.ui.model.type.Currency',
+															formatOptions: {
+																showMeasure: false
+															}
+														}"
+														unit="{Currency}" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/ActualAmount/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/ActualAmount/@maxLength} > 9 ? '10rem' : '5rem')}">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"ActualAmount","leadingProperty":"ActualAmount","additionalProperty":"Currency","filterProperty":"ActualAmount","sortProperty":"ActualAmount"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/ActualAmount/@sap:label}" />
+												<table:template>
+													<ObjectNumber number="{
+															parts: [
+																{path: 'ActualAmount'},
+																{path: 'Currency'}
+															],
+															type: 'sap.ui.model.type.Currency',
+															formatOptions: {
+																showMeasure: false
+															}
+														}"
+														unit="{Currency}" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Difference/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Difference/@maxLength} > 9 ? '10rem' : '5rem')}">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"Difference","leadingProperty":"Difference","filterProperty":"Difference","sortProperty":"Difference"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/Difference/@sap:label}" />
+												<table:template>
+													<ObjectNumber number="{
+															parts: [
+																{path: 'SystemAmount'},
+																{path: 'ActualAmount'},
+																{path: 'Currency'}
+															],
+															formatter: '.formatter.calculateAmountDifference'
+														}"
+														unit="{Currency}"
+														state="{
+															parts: [
+																{path: 'SystemAmount'},
+																{path: 'ActualAmount'}
+															],
+															formatter: '.formatter.calculateAmountDifferenceState'
+														}"
+														visible="{= ${SystemAmount} !== null &amp;&amp; ${ActualAmount} !== null}" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/Comments/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/Comments/@maxLength} > 9 ? '10rem' : '5rem')}">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"Comments","leadingProperty":"Comments","filterProperty":"Comments","sortProperty":"Comments"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/Comments/@sap:label}" />
+												<table:template>
+													<Text text="{Comments}" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_detCostType/StatusText/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_detCostType/StatusText/@maxLength} > 9 ? '10rem' : '5rem')}">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"Status","leadingProperty":"Status","additionalProperty":"StatusText","filterProperty":"Status","sortProperty":"Status"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/Status/@sap:label}" />
+												<table:template>
+													<ObjectStatus text="{StatusText}" app:mydata="{Status}" state="None" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" visible="false">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"Guid_Legculc","leadingProperty":"Guid_Legculc","filterProperty":"Guid_Legculc","sortProperty":"Guid_Legculc"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/Guid_Legculc/@sap:label}" visible="false" />
+												<table:template>
+													<Text text="{Guid_Legculc}" visible="false" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" visible="false">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"HeaderID","leadingProperty":"HeaderID","filterProperty":"HeaderID","sortProperty":"HeaderID"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/HeaderID/@sap:label}" visible="false" />
+												<table:template>
+													<Text text="{HeaderID}" visible="false" />
+												</table:template>
+											</table:Column>
+											<table:Column hAlign="Begin" visible="false">
+												<table:customData>
+													<core:CustomData key="p13nData" value='\{"columnKey":"Tlc_Aart","leadingProperty":"Tlc_Aart","filterProperty":"Tlc_Aart","sortProperty":"Tlc_Aart"}' />
+												</table:customData>
+												<Label text="{/#ZCBS_C_detCostType/Tlc_Aart/@sap:label}" visible="false" />
+												<table:template>
+													<Text text="{Tlc_Aart}" visible="false" />
+												</table:template>
+											</table:Column>
+										</table:columns>
+									</table:Table>
+								</st:SmartTable>
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<!-- <uxap:ObjectPageSection title="{i18n>detailSectionTitleAttachment}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<UploadCollection
+								id="UploadCollection"
+								maximumFilenameLength="{settings>/maximumFilenameLength}"
+								maximumFileSize="{settings>/maximumFileSize}"
+								multiple="true"
+								change="onChange"
+								fileDeleted="onFileDeleted"
+								filenameLengthExceed="onFilenameLengthExceed"
+								fileRenamed="onFileRenamed"
+								fileSizeExceed="onFileSizeExceed"
+								fileType="{fileTypes>/selected}"
+								selectionChange="onSelectionChange"
+								typeMissmatch="onTypeMissmatch"
+								uploadComplete="onUploadComplete"
+								beforeUploadStarts="onBeforeUploadStarts"
+								uploadTerminated="onUploadTerminated"
+								items="{
+									path: 'attachment>/items',
+									templateShareable: false
+								}"
+								showSeparators="{settings>/showSeparators}"
+								uploadEnabled="{= ${settings>/uploadEnabled} &amp;&amp; ${detailView>/editable} &amp;&amp; ${uiView>/DET_MGMT_D_ATTACH_ADD} === 'Y'}"
+								uploadButtonInvisible="{= !${detailView>/editable}}"
+								mode="{settings>/mode}">
+								<toolbar>
+									<OverflowToolbar>
+										<Title id="attachmentTitle" />
+										<ToolbarSpacer />
+										<UploadCollectionToolbarPlaceholder />
+										<OverflowToolbarButton
+											id="deleteSelectedButton"
+											text="{i18n>buttonTextDelete}"
+											type="Transparent"
+											icon="sap-icon://delete"
+											iconFirst="true"
+											enabled="{= ${detailView>/attachSelected} &amp;&amp; ${detailView>/editable}}"
+											visible="{= ${detailView>/editable} &amp;&amp; ${uiView>/DET_MGMT_D_ATTACH_DELETE} === 'Y'}"
+											iconDensityAware="false"
+											press="onDeleteSelectedItems" />
+									</OverflowToolbar>
+								</toolbar>
+								<items>
+									<UploadCollectionItem
+										documentId="{attachment>AttachmentID}"
+										fileName="{attachment>FileName}"
+										url="{attachment>FileURL}"
+										enableEdit="{settings>/enableEdit}"
+										enableDelete="{settings>/enableDelete}"
+										visibleDelete="{= ${detailView>/editable} &amp;&amp; ${uiView>/DET_MGMT_D_ATTACH_DELETE} === 'Y' &amp;&amp; ${attachment>CreateBy} === ${detailView>/UserID}}"
+										visibleEdit="{settings>/visibleEdit}">
+										<attributes>
+											<ObjectAttribute text="Uploaded By: {attachment>CreateBy}, Uploaded On: {path: 'attachment>CreateDate', formatter: '.formatAttribute'}" />
+										</attributes>
+									</UploadCollectionItem>
+								</items>
+							</UploadCollection>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection> -->
+
+			<uxap:ObjectPageSection title="{i18n>detailSectionTitleItems}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<st:SmartTable
+								id="itemSmartTable"
+								entitySet="ZCBS_C_DETI"
+								enableAutoBinding="true"
+								tableBindingPath="to_DETI"
+								tableType="Table"
+								useExportToExcel="false"
+								useVariantManagement="false"
+								useTablePersonalisation="true"
+								showTablePersonalisation="false"
+								showRowCount="true"
+								persistencyKey="huawei.cbs.det004.Detail.Table"
+								requestAtLeastFields="ProductNo,ShortText,GoodsName,HsCode,Qty,UoM,BOEQty,BOEUnitExternal,UnitPrice,UnitPriceCurrency,Amount,AmountCurrency,BOEAmount,BOECurrency,SecondQty,SecondUnit,PackageQty,PackageTypeTxt,HKModel,Brand,ManufacturerName,Origin,Remarks,Probability,ItemID,ManufacturerNameID">
+
+								<st:customToolbar>
+									<OverflowToolbar design="Transparent">
+										<ToolbarSpacer />
+										<!-- <OverflowToolbarButton text="{i18n>buttonTextAdd}" type="Transparent" icon="sap-icon://add" iconFirst="true" enabled="true" visible="{= ${detailView>/editable} === false}" iconDensityAware="false" press="onItemAdd" />
+										<OverflowToolbarButton text="{i18n>buttonTextDelete}" type="Transparent" icon="sap-icon://delete" iconFirst="true" enabled="{= ${detailView>/itemSelected}}" visible="{= ${detailView>/editable} === false}" iconDensityAware="false" press="onItemDelete" /> -->
+									</OverflowToolbar>
+								</st:customToolbar>
+
+								<!-- layout data used to make the table growing but the filter bar fixed -->
+								<st:layoutData>
+									<FlexItemData growFactor="1" baseSize="0%" />
+								</st:layoutData>
+
+								<table:Table
+									id="itemTable"
+									rows="{to_DETI}"
+									selectionMode="None"
+									showNoData="false"
+									visibleRowCount="20"
+									enableSelectAll="true"
+									rowSelectionChange="onItemSelectionChange"
+									threshold="20"
+									enableBusyIndicator="true">
+
+									<table:noData>
+										<BusyIndicator class="sapUiMediumMargin" />
+									</table:noData>
+
+									<table:columns>
+										<!-- <table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/ItemLevelID/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/ItemLevelID/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ItemLevelID","leadingProperty":"ItemLevelID","filterProperty":"ItemLevelID","sortProperty":"ItemLevelID"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/ItemLevelID/@sap:label}" />
+											<table:template>
+												<Text text="{ItemLevelID}" />
+											</table:template>
+										</table:Column> -->
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/ProductNo/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/ProductNo/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ProductNo","leadingProperty":"ProductNo","filterProperty":"ProductNo","sortProperty":"ProductNo"}' />
+											</table:customData>
+											<Text text="{/#ZCBS_C_DETIType/ProductNo/@sap:label}" />
+											<table:template>
+												<Link text="{ProductNo}" emphasized="true" press="onItemPress" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/ShortText/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/ShortText/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ShortText","leadingProperty":"ShortText","filterProperty":"ShortText","sortProperty":"ShortText"}' />
+											</table:customData>
+											<Text text="{/#ZCBS_C_DETIType/ShortText/@sap:label}" />
+											<table:template>
+												<Link text="{ShortText}" emphasized="true" press="onItemPress" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/GoodsName/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/GoodsName/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"GoodsName","leadingProperty":"GoodsName","filterProperty":"GoodsName","sortProperty":"GoodsName"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/GoodsName/@sap:label}" />
+											<table:template>
+												<Text text="{GoodsName}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/HsCode/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/HsCode/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"HsCode","leadingProperty":"HsCode","filterProperty":"HsCode","sortProperty":"HsCode"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/HsCode/@sap:label}" />
+											<table:template>
+												<Text text="{HsCode}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/Qty/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/Qty/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Qty","leadingProperty":"Qty","additionalProperty":"UoM","filterProperty":"Qty","sortProperty":"Qty"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/Qty/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'Qty'},
+															{path: 'UoM'}
+														],
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false,
+															minFractionDigits: 3,
+															maxFractionDigits: 3
+														}
+													}" unit="{UoM}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/BOEQty/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/BOEQty/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"BOEQty","leadingProperty":"BOEQty","additionalProperty":"BOEUnitExternal","filterProperty":"BOEQty","sortProperty":"BOEQty"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/BOEQty/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'BOEQty'},
+															{path: 'BOEUnitExternal'}
+														],
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false,
+															minFractionDigits: 3,
+															maxFractionDigits: 3
+														}
+													}" unit="{BOEUnitExternal}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/UnitPrice/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/UnitPrice/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"UnitPrice","leadingProperty":"UnitPrice","additionalProperty":"UnitPriceCurrency","filterProperty":"UnitPrice","sortProperty":"UnitPrice"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/UnitPrice/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														path: 'UnitPrice',
+														type: 'sap.ui.model.type.Float'
+													}" unit="{UnitPriceCurrency}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/Amount/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/Amount/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Amount","leadingProperty":"Amount","additionalProperty":"AmountCurrency","filterProperty":"Amount","sortProperty":"Amount"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/Amount/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'Amount'},
+															{path: 'AmountCurrency'}
+														],
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false,
+															maxFractionDigits: 2
+														}
+													}" unit="{AmountCurrency}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/BOEAmount/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/BOEAmount/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"BOEAmount","leadingProperty":"BOEAmount","additionalProperty":"BOECurrency","filterProperty":"BOEAmount","sortProperty":"BOEAmount"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/BOEAmount/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'BOEAmount'},
+															{path: 'BOECurrency'}
+														],
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false,
+															maxFractionDigits: 2
+														}
+													}" unit="{BOECurrency}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/SecondQty/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/SecondQty/@maxLength} > 9 ? '10rem' : '5rem')}" visible="{= ${detailView>/Country} === 'CN'}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"SecondQty","leadingProperty":"SecondQty","additionalProperty":"SecondUnit","filterProperty":"SecondQty","sortProperty":"SecondQty"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/SecondQty/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'SecondQty'},
+															{path: 'SecondUnit'}
+														],
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false
+														}
+													}" unit="{SecondUnit}" visible="{= ${detailView>/Country} === 'CN'}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/PackageQty/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/PackageQty/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"PackageQty","leadingProperty":"PackageQty","additionalProperty":"PackageTypeTxt","filterProperty":"PackageQty","sortProperty":"PackageQty"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/PackageQty/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'PackageQty'},
+															{path: 'PackageTypeTxt'}
+														],
+														formatter: '.formatter.packageQtyFormatter',
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false
+														}
+													}" unit="{PackageTypeTxt}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/HKModel/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/HKModel/@maxLength} > 9 ? '10rem' : '5rem')}" visible="{= ${detailView>/Country} === 'HK' &amp;&amp; ${detailView>/BusinessType} === '10'}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"HKModel","leadingProperty":"HKModel","filterProperty":"HKModel","sortProperty":"HKModel"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/HKModel/@sap:label}" />
+											<table:template>
+												<Text text="{HKModel}" visible="{= ${detailView>/Country} === 'HK' &amp;&amp; ${detailView>/BusinessType} === '10'}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/Brand/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/Brand/@maxLength} > 9 ? '10rem' : '5rem')}" visible="{= !(${detailView>/Country} === 'HK' &amp;&amp; ${detailView>/BusinessType} === '20')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Brand","leadingProperty":"Brand","filterProperty":"Brand","sortProperty":"Brand"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/Brand/@sap:label}" />
+											<table:template>
+												<Text text="{Brand}" visible="{= !(${detailView>/Country} === 'HK' &amp;&amp; ${detailView>/BusinessType} === '20')}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/ManufacturerName/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/ManufacturerName/@maxLength} > 9 ? '10rem' : '5rem')}" visible="{= !(${detailView>/Country} === 'HK' &amp;&amp; ${detailView>/BusinessType} === '20')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ManufacturerName","leadingProperty":"ManufacturerName","filterProperty":"ManufacturerName","sortProperty":"ManufacturerName"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/ManufacturerName/@sap:label}" />
+											<table:template>
+												<Text text="{ManufacturerName}" visible="{= !(${detailView>/Country} === 'HK' &amp;&amp; ${detailView>/BusinessType} === '20')}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/Origin/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/Origin/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Origin","leadingProperty":"Origin","filterProperty":"Origin","sortProperty":"Origin"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/Origin/@sap:label}" />
+											<table:template>
+												<Text text="{Origin}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/Remarks/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/Remarks/@maxLength} > 9 ? '10rem' : '5rem')}" visible="{= !(${detailView>/Country} === 'HK' &amp;&amp; ${detailView>/BusinessType} === '20')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Remarks","leadingProperty":"Remarks","filterProperty":"Remarks","sortProperty":"Remarks"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/Remarks/@sap:label}" />
+											<table:template>
+												<Text text="{Remarks}" visible="{= !(${detailView>/Country} === 'HK' &amp;&amp; ${detailView>/BusinessType} === '20')}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETIType/Probability/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETIType/Probability/@maxLength} > 9 ? '10rem' : '5rem')}" visible="{= !(${detailView>/Country} === 'HK' &amp;&amp; ${detailView>/BusinessType} === '20')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Probability","leadingProperty":"Probability","filterProperty":"Probability","sortProperty":"Probability"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETIType/Probability/@sap:label}" />
+											<table:template>
+												<Text text="{Probability}" visible="{= !(${detailView>/Country} === 'HK' &amp;&amp; ${detailView>/BusinessType} === '20')}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Center" width="4rem">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ItemID","leadingProperty":"ItemID","filterProperty":"ItemID","sortProperty":"ItemID"}' />
+											</table:customData>
+											<Label text=" " />
+											<table:template>
+												<table:RowAction>
+													<table:RowActionItem type="Navigation" press="onItemPress" />
+												</table:RowAction>
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</st:SmartTable>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		</uxap:sections>
+
+		<uxap:footer>
+			<OverflowToolbar>
+				<Button icon="sap-icon://alert" text="{=${message>/}.length}" visible="{=${message>/}.length > 0}" type="Emphasized" press="onMessagesButtonPress"/>
+				<ToolbarSpacer />
+				<Button text="{i18n>buttonTextSave}" type="Emphasized" press="onSave" tooltip="{i18n>buttonTextSave}" visible="{= ${uiView>/DET_MGMT_M_PAGE_CREATE} === 'Y'}" />
+				<!-- <Button text="{i18n>buttonTextGenerateDoc}" type="Emphasized" press="onGenerate" tooltip="{i18n>buttonTextGenerateDoc}" visible="{= ${detailView>/editable} === false}" />
+				<Button text="{i18n>buttonTextSubmit}" type="Emphasized" press="onSubmit" tooltip="{i18n>buttonTextSubmit}" visible="{= ${detailView>/editable} === false}" /> -->
+				<Button text="{i18n>buttonTextCancel}" type="Reject" press="onCancel" tooltip="{i18n>buttonTextCancel}" visible="{= ${uiView>/DET_MGMT_M_PAGE_CREATE} === 'Y'}" />
+			</OverflowToolbar>
+		</uxap:footer>
+	</uxap:ObjectPageLayout>
+</mvc:View>

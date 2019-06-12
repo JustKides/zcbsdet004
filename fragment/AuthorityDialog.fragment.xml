@@ -1,0 +1,52 @@
+<core:FragmentDefinition
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:layout="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:table="sap.ui.table"
+	xmlns="sap.m">
+	<Dialog title="Edit Authority" afterClose="onAuthorityClose">
+		<content>
+			<VBox class="sapUiSizeCompact">
+				<HBox justifyContent="Start" width="100%">
+					<form:SimpleForm
+						layout="ResponsiveGridLayout"
+						labelSpanXL="4"
+						labelSpanL="4"
+						labelSpanM="12"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="0"
+						emptySpanL="0"
+						emptySpanM="0"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1">
+						<form:content>
+							<Label text="Guid_Auth" visible="false" />
+							<Text text="{Guid_Auth}" visible="false" />
+
+							<Label text="{i18n>itemAuthoritiesTableColumnSpecification}" />
+							<Input value="{Specification}" />
+
+							<Label text="{i18n>itemAuthoritiesTableColumnValue}" />
+							<Input value="{Value}" />
+
+							<Label text="Guid_Ctsnum" visible="false" />
+							<Text text="{Guid_Ctsnum}" visible="false" />
+						</form:content>
+					</form:SimpleForm>
+				</HBox>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button text="{i18n>buttonTextSave}" press="onAuthoritySave" />
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>buttonTextCancel}" press="onAuthorityCancel" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,27 @@
+<core:FragmentDefinition
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m">
+	<ViewSettingsDialog
+		confirm="onDocumentSettingsConfirm"
+		cancel="onDocumentSettingsCancel"
+		resetFilters="onDocumentSettingsResetFilters">
+		<filterItems>
+			<ViewSettingsCustomItem
+				text="Document Name Filter"
+				key="documentNameFilter">
+				<customControl>
+					<Label text="Document Name Contains" />
+					<Input value="" />
+				</customControl>
+			</ViewSettingsCustomItem>
+			<ViewSettingsCustomItem
+				text="Document No Filter"
+				key="documentNoFilter">
+				<customControl>
+					<Label text="Document No Contains" />
+					<Input value="" />
+				</customControl>
+			</ViewSettingsCustomItem>
+		</filterItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

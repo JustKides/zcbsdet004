@@ -1,0 +1,435 @@
+<mvc:View
+	controllerName="huawei.cbs.det004.controller.Master"
+	xmlns="sap.m"
+	xmlns:f="sap.f"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:sfb="sap.ui.comp.smartfilterbar"
+	xmlns:st="sap.ui.comp.smarttable"
+	xmlns:semantic="sap.f.semantic"
+	xmlns:table="sap.ui.table"
+	xmlns:l="sap.ui.layout">
+
+	<semantic:SemanticPage
+		id="page"
+		showFooter="true"
+		busy="{masterView>/busy}"
+		busyIndicatorDelay="0"
+		class="cbsSemanticPageNoPadding">
+		<semantic:titleHeading>
+			<Title text="{i18n>masterWorklistTitle} - {masterView>/BusinessTypeText} - {masterView>/ImportOrExportText}" />
+		</semantic:titleHeading>
+
+		<semantic:headerContent>
+			<sfb:SmartFilterBar
+				id="smartFilterBar"
+				useToolbar="false"
+				entitySet="ZCBS_C_DETH"
+				persistencyKey="huawei.cbs.det004.Master.FilterBar"
+				assignedFiltersChanged="onAssignedFiltersChanged"
+				search="onSearch"
+				showClearOnFB="true"
+				clear="onClear"
+				showFilterConfiguration="false"
+				useProvidedNavigationProperties="true"
+				navigationProperties="to_Item">
+				<sfb:controlConfiguration>
+					<sfb:ControlConfiguration key="Country" index="0" visibleInAdvancedArea="true">
+						<sfb:customControl>
+							<ActionSelect
+								id="countrySelect"
+								items="{
+									path: '/Zcbs_C_Detbizareavh',
+									sorter: {
+										path: 'CountryKey',
+										descending: false
+									}
+								}"
+								change="onCountryChange"
+								showSecondaryValues="true"
+								forceSelection="false">
+								<items>
+									<core:ListItem key="{CountryKey}" text="{CountryKey}" additionalText="{CountryText}" />
+								</items>
+							</ActionSelect>
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="DocumentNo" index="1" visibleInAdvancedArea="true" filterType="multi-value" />
+					<sfb:ControlConfiguration key="Company" index="2" visibleInAdvancedArea="true" />
+					<sfb:ControlConfiguration key="Shipper" index="3" visibleInAdvancedArea="true" />
+					<sfb:ControlConfiguration key="Consignee" index="4" visibleInAdvancedArea="true" visible="{= !(${masterView>/HKOnly} === true &amp;&amp; ${masterView>/RawMaterial} === false &amp;&amp; ${masterView>/ImportOrExport} === '2')}" />
+					<sfb:ControlConfiguration key="BANO" index="5" visibleInAdvancedArea="true" filterType="multi-value" visible="{= ${masterView>/HKOnly} &amp;&amp; ${masterView>/RawMaterial} === true &amp;&amp; ${masterView>/ImportOrExport} === '2'}" />
+					<sfb:ControlConfiguration key="InvoiceNo" index="6" visibleInAdvancedArea="true" filterType="multi-value" visible="{masterView>/NotHK}" />
+					<sfb:ControlConfiguration key="ContractNo" index="7" visibleInAdvancedArea="true" filterType="multi-value" visible="{masterView>/NotHK}" />
+					<sfb:ControlConfiguration key="PackingListNo" index="8" visibleInAdvancedArea="true" filterType="multi-value" visible="{= !(${masterView>/HKOnly} === true &amp;&amp; ${masterView>/RawMaterial} === true)}" />
+					<sfb:ControlConfiguration key="RelatedTransactionFlag" index="9" visibleInAdvancedArea="true" visible="{masterView>/NotHK}">
+						<sfb:customControl>
+							<ActionSelect
+								id="relatedTransactionFlagSelect"
+								items="{
+									path: 'selectOptions>/SelectOptions',
+									sorter: {
+										path: 'ID',
+										descending: false
+									}
+								}"
+								forceSelection="false">
+								<core:Item key="{selectOptions>Key}" text="{selectOptions>Text}" />
+							</ActionSelect>
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="FulFillmentSource" index="10" visibleInAdvancedArea="true" visible="{masterView>/NotHK}">
+						<sfb:customControl>
+							<ActionSelect
+								id="fulFillmentSourceSelect"
+								forceSelection="false"
+								items="{
+									path: '/ZCBS_C_DMTEXT',
+									sorter: { path: 'ValueKey', descending: false },
+									filters: [
+										{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_FULFILLMENT_SOURCE' }
+									]
+								}">
+								<core:Item key="{DomainValue}" text="{ShortText}" />
+							</ActionSelect>
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="ManifestNo" index="11" visibleInAdvancedArea="true" filterType="multi-value" visible="{= ${masterView>/HKOnly} &amp;&amp; !(${masterView>/RawMaterial} === false &amp;&amp; ${masterView>/ImportOrExport} === '2')}" />
+					<sfb:ControlConfiguration key="VehicleNo" index="12" visibleInAdvancedArea="true" filterType="multi-value" visible="{masterView>/HKOnly}" />
+					<sfb:ControlConfiguration key="MAWB" index="13" visibleInAdvancedArea="true" visible="{masterView>/HKOnly}" />
+					<sfb:ControlConfiguration key="HAWB" index="14" visibleInAdvancedArea="true" visible="{= !(${masterView>/HKOnly} === true &amp;&amp; ${masterView>/RawMaterial} === false &amp;&amp; ${masterView>/ImportOrExport} === '1')}" />
+					<sfb:ControlConfiguration key="FinalDestination" index="15" visibleInAdvancedArea="true" visible="{masterView>/NotHK}" />
+					<sfb:ControlConfiguration key="ImportDate" index="16" visibleInAdvancedArea="true" visible="{= ${masterView>/HKOnly} &amp;&amp; ${masterView>/ImportOrExport} === '1'}">
+						<sfb:customControl>
+							<DateRangeSelection id="importDateRangeSelection" change="onImportDateChange" />
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="ExportDate" index="17" visibleInAdvancedArea="true" visible="{= ${masterView>/HKOnly} &amp;&amp; ${masterView>/ImportOrExport} === '2'}">
+						<sfb:customControl>
+							<DateRangeSelection id="exportDateRangeSelection" change="onExportDateChange" />
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="ModeOfTransport" index="18" visibleInAdvancedArea="true">
+						<sfb:customControl>
+							<ActionSelect
+								id="modeOfTransportSelect"
+								items="{
+									path: '/ZcbsHMotraSet',
+									sorter: {
+										path: 'Motra',
+										descending: false
+									},
+									filters: [
+										{ path : 'Cuscs', operator : 'EQ', value1 : 'ZCUCN' }
+									]
+								}"
+								forceSelection="false">
+								<items>
+									<core:Item key="{Motra}" text="{Text1}" />
+								</items>
+							</ActionSelect>
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="ShippingDate" index="19" visibleInAdvancedArea="true" visible="{= !${masterView>/HKOnly} || (${masterView>/BusinessType} === '10' &amp;&amp; ${masterView>/ImportOrExport} === '2')}">
+						<sfb:customControl>
+							<DateRangeSelection id="shippingDateRangeSelection" change="onShippingDateChange" />
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="CreateDate" index="20" visibleInAdvancedArea="true">
+						<sfb:customControl>
+							<DateRangeSelection id="createDateRangeSelection" change="onCreateDateChange" />
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="UDR" index="21" visibleInAdvancedArea="true" />
+					<sfb:ControlConfiguration key="DeclarationDate" index="22" visibleInAdvancedArea="true">
+						<sfb:customControl>
+							<DateRangeSelection id="declarationDateRangeSelection" change="onDeclarationDateChange" />
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="ExpressTrackingNo" index="23" visibleInAdvancedArea="true" visible="{= ${masterView>/HKOnly} &amp;&amp; !(${masterView>/RawMaterial} === false &amp;&amp; ${masterView>/ImportOrExport} === '2')}" />
+					<sfb:ControlConfiguration key="LSP" index="24" visibleInAdvancedArea="true" visible="{masterView>/HKOnly}" />
+					<sfb:ControlConfiguration key="CreatedByUser" index="25" visibleInAdvancedArea="true" visible="{masterView>/HKOnly}" />
+					<sfb:ControlConfiguration key="HSCodeStatus" index="26" visibleInAdvancedArea="true" visible="{= ${masterView>/selectedTab} === '10'}">
+						<sfb:customControl>
+							<ActionSelect
+								id="hsCodeStatusSelect"
+								forceSelection="false"
+								items="{
+									path: '/ZCBS_C_DMTEXT',
+									sorter: { path: 'ValueKey', descending: false },
+									filters: [
+										{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_INDICATOR' }
+									]
+								}">
+								<core:Item key="{DomainValue}" text="{ShortText}" />
+							</ActionSelect>
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="OrderReleaseNo" index="27" visibleInAdvancedArea="true" visible="{= ${masterView>/HKOnly} === true &amp;&amp; ${masterView>/RawMaterial} === false}" />
+					<sfb:ControlConfiguration key="SubmitBy" index="28" visibleInAdvancedArea="true" visible="{= ${masterView>/HKOnly} === true &amp;&amp; ${masterView>/RawMaterial} === false}" />
+					<sfb:ControlConfiguration key="SubmitDate" index="29" visibleInAdvancedArea="true" visible="{= ${masterView>/HKOnly} === true &amp;&amp; ${masterView>/RawMaterial} === false}" />
+					<sfb:ControlConfiguration key="SourceSystem" index="30" visibleInAdvancedArea="true" visible="{= ${masterView>/HKOnly} === true &amp;&amp; ${masterView>/RawMaterial} === false}">
+						<sfb:customControl>
+							<ActionSelect
+								id="sourceSystemSelect"
+								forceSelection="false"
+								items="{
+									path: '/ZCBS_C_DMTEXT',
+									sorter: { path: 'ValueKey', descending: false },
+									filters: [
+										{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_SOURCE_SYSTEM_FLAG' }
+									]
+								}">
+								<core:Item key="{DomainValue}" text="{ShortText}" />
+							</ActionSelect>
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="DeviceType" index="31" visibleInAdvancedArea="true" visible="{= ${masterView>/HKOnly} === true &amp;&amp; ${masterView>/RawMaterial} === false}">
+						<sfb:customControl>
+							<ActionSelect
+								id="deviceTypeSelect"
+								forceSelection="true"
+								items="{
+									path: '/ZCBS_C_DMTEXT',
+									sorter: { path: 'ValueKey', descending: false },
+									filters: [
+										{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_SHORTNAME' }
+									]
+								}">
+								<core:Item key="{DomainValue}" text="{ShortText}" />
+							</ActionSelect>
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+					<sfb:ControlConfiguration key="ETW" index="32" visibleInAdvancedArea="true" visible="{= ${masterView>/HKOnly} === true &amp;&amp; ${masterView>/RawMaterial} === false}">
+						<sfb:customControl>
+							<ActionSelect
+								id="etwSelect"
+								forceSelection="false"
+								items="{
+									path: '/ZCBS_C_DMTEXT',
+									sorter: { path: 'ValueKey', descending: false },
+									filters: [
+										{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_INDICATOR' }
+									]
+								}">
+								<core:Item key="{DomainValue}" text="{ShortText}" />
+							</ActionSelect>
+						</sfb:customControl>
+					</sfb:ControlConfiguration>
+				</sfb:controlConfiguration>
+				<sfb:layoutData>
+					<FlexItemData shrinkFactor="0" />
+				</sfb:layoutData>
+			</sfb:SmartFilterBar>
+		</semantic:headerContent>
+
+		<semantic:content>
+			<l:VerticalLayout width="100%">
+				<IconTabBar
+					id="iconTabBar"
+					upperCase="true"
+					expandable="false"
+					showOverflowSelectList="true"
+					select="onTabSelect"
+					selectedKey="{masterView>/selectedTab}">
+					<items>
+						<IconTabFilter
+							id="iconTabFilterAll"
+							count="{masterView>/count/all}"
+							text="{i18n>masterIconTabBarAll}"
+							key="all">
+						</IconTabFilter>
+						<IconTabSeparator />
+						<IconTabFilter
+							id="iconTabFilterDraft"
+							count="{masterView>/count/10}"
+							text="{i18n>masterIconTabBarDraft}"
+							key="10">
+						</IconTabFilter>
+						<!-- <IconTabFilter
+							id="iconTabFilterBlock"
+							count="{masterView>/count/20}"
+							text="{i18n>masterIconTabBarBlock}"
+							key="20">
+						</IconTabFilter> -->
+						<IconTabFilter
+							id="iconTabFilterSubmitted"
+							count="{masterView>/count/30}"
+							text="{i18n>masterIconTabBarSubmitted}"
+							key="30">
+						</IconTabFilter>
+						<IconTabFilter
+							id="iconTabFilterApproved"
+							count="{masterView>/count/40}"
+							text="{i18n>masterIconTabBarApproved}"
+							key="40">
+						</IconTabFilter>
+						<IconTabFilter
+							id="iconTabFilterDeclared"
+							count="{masterView>/count/50}"
+							text="{i18n>masterIconTabBarDeclared}"
+							key="50">
+						</IconTabFilter>
+						<IconTabFilter
+							id="iconTabFilterToBeAccepted"
+							count="{masterView>/count/60}"
+							text="{i18n>masterIconTabBarToBeAccepted}"
+							key="60">
+						</IconTabFilter>
+						<IconTabFilter
+							id="iconTabFilterPartiallyAccepted"
+							count="{masterView>/count/65}"
+							text="{i18n>masterIconTabBarPartiallyAccepted}"
+							key="65">
+						</IconTabFilter>
+						<IconTabFilter
+							id="iconTabFilterAccepted"
+							count="{masterView>/count/70}"
+							text="{i18n>masterIconTabBarAccepted}"
+							key="70">
+						</IconTabFilter>
+					</items>
+					<content>
+						<st:SmartTable
+							id="smartTable"
+							smartFilterId="smartFilterBar"
+							entitySet="ZCBS_C_DETH"
+							tableType="Table"
+							useExportToExcel="false"
+							useVariantManagement="false"
+							useTablePersonalisation="true"
+							showTablePersonalisation="false"
+							showRowCount="true"
+							beforeRebindTable="onBeforeRebindTable"
+							persistencyKey="huawei.cbs.det004.Master.Table"
+							requestAtLeastFields="ShippingDate,BANO,BOEAmount,BOECurrency,CAT,CCRN,VehicleNo,Company,Consignee,CreatedByUser,CreateDate,DestinationCountry,DestinationCountryTxt,DocumentNo,DocumentYear,ExpressTrackingNo,HAWB,HeaderID,HeaderIDString,ExportDate,ImportDate,HSCodeStatus,InvoiceAmount,InvoiceCurrency,LSP,ManifestNo,MAWB,ModeOfTransport,ModeOfTransportTxt,Remarks,Shipper,SourceSystem,SubmitBy,TotalPackages,TruckNumber,TransportTripNo,UDR"
+							class="cbsSmartTable">
+							<st:customToolbar>
+								<OverflowToolbar design="Transparent">
+									<Title id="lineItemsHeader" text="{masterView>/masterLineItemListTitle}" />
+									<ToolbarSpacer />
+									<Button
+										id="btnSubmit"
+										text="{i18n>masterButtonSubmit}"
+										type="Emphasized"
+										iconFirst="true"
+										width="auto"
+										enabled="{= ${masterView>/declarationSelected}}"
+										visible="{= ${masterView>/selectedTab} === '10' &amp;&amp; ${uiView>/DET_MGMT_M_PAGE_SUBMIT} === 'Y'}"
+										press="onSubmit"
+										iconDensityAware="false" />
+									<Button
+										id="btnCancel"
+										text="{i18n>masterButtonDelete}"
+										type="Reject"
+										iconFirst="true"
+										width="auto"
+										enabled="{= ${masterView>/declarationSelected}}"
+										visible="{= ${masterView>/selectedTab} === '10' &amp;&amp; ${uiView>/DET_MGMT_M_PAGE_DELETE} === 'Y'}"
+										press="onCancel"
+										iconDensityAware="false" />
+									<Button
+										id="btnRefresh"
+										text="{i18n>masterButtonRefresh}"
+										type="Emphasized"
+										iconFirst="true"
+										width="auto"
+										enabled="{= ${masterView>/declarationSelected}}"
+										visible="{= ${masterView>/selectedTab} === '10' &amp;&amp; ${uiView>/DET_MGMT_M_PAGE_REFRESH} === 'Y'}"
+										press="onRefresh"
+										iconDensityAware="false" />
+									<Button
+										id="btnUpload"
+										text="{i18n>masterButtonUpload}"
+										type="Emphasized"
+										iconFirst="true"
+										width="auto"
+										enabled="true"
+										visible="{= ${masterView>/RawMaterial} === true &amp;&amp; ${masterView>/ImportOrExport} === '2' &amp;&amp; ${uiView>/DET_MGMT_M_PAGE_UPLOAD} === 'Y'}"
+										press="onUpload"
+										iconDensityAware="false" />
+									<Button
+										id="btnExport"
+										text="{i18n>masterButtonExport}"
+										type="Emphasized"
+										iconFirst="true"
+										width="auto"
+										enabled="{= ${masterView>/declarationSelected}}"
+										visible="{= ${masterView>/selectedTab} !== '20' &amp;&amp; ${uiView>/DET_MGMT_M_PAGE_EXPORT} === 'Y'}"
+										press="onExport"
+										iconDensityAware="false" />
+								</OverflowToolbar>
+							</st:customToolbar>
+
+							<!-- layout data used to make the table growing but the filter bar fixed -->
+							<st:layoutData>
+								<FlexItemData growFactor="1" baseSize="0%" />
+							</st:layoutData>
+
+							<table:Table
+								id="declarationTable"
+								selectionMode="MultiToggle"
+								sort="sortDeclarationTasks"
+								visibleRowCount="15"
+								enableSelectAll="true"
+								selectionBehavior="Row"
+								rowSelectionChange="onListSelectionChange"
+								threshold="15"
+								fixedColumnCount="1"
+								enableBusyIndicator="true"
+								ariaLabelledBy="title">
+
+								<table:noData>
+									<BusyIndicator class="sapUiMediumMargin" />
+								</table:noData>
+
+								<table:columns>
+									<table:Column hAlign="Begin" width="auto">
+										<table:customData>
+											<core:CustomData key="p13nData" value='\{"columnKey":"HeaderID","additionalProperty":"ShippingDate,BANO,BOEAmount,BOECurrency,CAT,CCRN,VehicleNo,Company,Consignee,CreatedByUser,CreateDate,DestinationCountry,DestinationCountryTxt,DocumentNo,DocumentYear,ExpressTrackingNo,HAWB,HeaderID,ExportDate,ImportDate,HSCodeStatus,InvoiceAmount,InvoiceCurrency,LSP,ManifestNo,MAWB,ModeOfTransport,ModeOfTransportTxt,Remarks,Shipper,SourceSystem,TotalPackages,TruckNumber,TransportTripNo","leadingProperty":"HeaderID","filterProperty":"HeaderID","sortProperty":"HeaderID"}' />
+										</table:customData>
+										<Label text="" />
+										<table:template>
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</st:SmartTable>
+					</content>
+				</IconTabBar>
+			</l:VerticalLayout>
+		</semantic:content>
+
+		<semantic:footerMainAction>
+			<semantic:FooterMainAction text="{i18n>masterButtonCreate}" press="onCreate" visible="{= ${uiView>/DET_MGMT_M_PAGE_CREATE} === 'Y'}" />
+		</semantic:footerMainAction>
+
+		<semantic:closeAction>
+			<semantic:CloseAction id="closeColumn" press="onCloseMasterPress" />
+		</semantic:closeAction>
+
+		<semantic:messagesIndicator>
+			<semantic:MessagesIndicator press="onMessagesButtonPress" />
+		</semantic:messagesIndicator>
+
+		<semantic:footerCustomActions>
+			<Button id="summaryText" text="Total Amount: {
+					path: 'masterView>/TotalAmount',
+					type: 'sap.ui.model.type.Float',
+					formatOptions: {
+						showMeasure: false,
+						minFractionDigits: 2,
+						maxFractionDigits: 2
+					}
+				} USD; Total Packages: {masterView>/TotalPackages}; Total Net Weight: {
+					path: 'masterView>/TotalNetWeight',
+					type: 'sap.ui.model.type.Float',
+					formatOptions: {
+						showMeasure: false,
+						minFractionDigits: 3,
+						maxFractionDigits: 3
+					}
+				} KG" visible="{= ${masterView>/declarationSelected}}" />
+		</semantic:footerCustomActions>
+	</semantic:SemanticPage>
+</mvc:View>

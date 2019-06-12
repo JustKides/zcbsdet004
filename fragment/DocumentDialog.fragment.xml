@@ -1,0 +1,75 @@
+<core:FragmentDefinition
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:layout="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:table="sap.ui.table"
+	xmlns="sap.m">
+	<Dialog title="Create/Edit Document" afterClose="onDocumentClose">
+		<content>
+			<VBox class="sapUiSizeCompact">
+				<HBox justifyContent="Start" width="100%">
+					<form:SimpleForm
+						layout="ResponsiveGridLayout"
+						labelSpanXL="4"
+						labelSpanL="4"
+						labelSpanM="4"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="0"
+						emptySpanL="0"
+						emptySpanM="0"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1">
+						<form:content>
+							<Label text="{i18n>detailDocumentTableColumnDocumentID}" textAlign="Begin" visible="false" />
+							<Input value="{LegdocID}" visible="false" />
+
+							<Label text="Document Category" textAlign="Begin" visible="false" />
+							<Input value="{DocCategory}" visible="false" />
+
+							<Label text="{i18n>detailDocumentTableColumnDocumentName}" textAlign="Begin" />
+							<ActionSelect
+								items="{
+									path: '/ZCBS_C_DetCodeList',
+									sorter: {
+										path: 'Code3',
+										descending: false
+									},
+									filters : [
+										{ path : 'Langu', operator : 'EQ', value1 : 'EN' },
+										{ path : 'TrTy', operator : 'EQ', value1 : 'PAPTY' },
+										{ path : 'Code1', operator : 'EQ', value1 : 'ZCUCN' },
+										{ path : 'Code2', operator : 'EQ', value1 : 'HDOC' }
+									]
+								}"
+								selectedKey="{DocumentType}"
+								showSecondaryValues="true"
+								forceSelection="false"
+								enabled="{= ${detailView>/new} || (${DocumentType} !== 'CONNO' &amp;&amp; ${DocumentType} !== 'PCKLT' &amp;&amp; ${DocumentType} !== 'CUSPO')}"
+								change="onDocumentTypeChange">
+								<core:ListItem key="{Code3}" text="{Description}" additionalText="{Code3}" />
+							</ActionSelect>
+
+							<Label text="{i18n>detailDocumentTableColumnDocumentNo}" textAlign="Begin" />
+							<Input value="{DocumentNo}" editable="{= ${detailView>/new} || (${DocumentType} !== 'CONNO' &amp;&amp; ${DocumentType} !== 'PCKLT' &amp;&amp; ${DocumentType} !== 'CUSPO')}" />
+
+							<Label text="Header Id" textAlign="Begin" visible="false" />
+							<Input value="{HeaderID}" visible="false" />
+						</form:content>
+					</form:SimpleForm>
+				</HBox>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button text="{i18n>buttonTextSave}" press="onDocumentSave" />
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>buttonTextCancel}" press="onDocumentCancel" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

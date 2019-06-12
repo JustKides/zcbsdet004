@@ -1,0 +1,16 @@
+<mvc:View
+	controllerName="huawei.cbs.det004.controller.BaseController"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+
+	<MessagePage
+		id="page"
+		title="{i18n>detailTitle}"
+		text="{i18n>noDetailFoundText}"
+		icon="sap-icon://product"
+		description=""
+		showNavButton="true"
+		navButtonPress="onNavBack">
+	</MessagePage>
+
+</mvc:View>

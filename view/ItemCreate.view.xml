@@ -1,0 +1,757 @@
+<mvc:View
+	controllerName="huawei.cbs.det004.controller.ItemCreate"
+	xmlns:core="sap.ui.core"
+	xmlns:uxap="sap.uxap"
+	xmlns:layout="sap.ui.layout"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:sf="sap.ui.comp.smartfield"
+	xmlns:st="sap.ui.comp.smarttable"
+	xmlns:table="sap.ui.table"
+	xmlns="sap.m"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+	<uxap:ObjectPageLayout
+		enableLazyLoading="false"
+		showFooter="true"
+		busy="{itemView>/busy}"
+		busyIndicatorDelay="0">
+		<uxap:headerTitle>
+			<uxap:ObjectPageDynamicHeaderTitle>
+				<uxap:expandedHeading>
+					<Title text="{= ${ProductNo} === '' ? 'New Declaration Task Item' : ${ProductNo}}" />
+				</uxap:expandedHeading>
+
+				<uxap:snappedHeading>
+					<Title text="{= ${ProductNo} === '' ? 'New Declaration Task Item' : ${ProductNo}}" />
+				</uxap:snappedHeading>
+
+				<uxap:expandedContent>
+					<Text text="{ShortText}" />
+				</uxap:expandedContent>
+
+				<uxap:snappedContent>
+					<Text text="{ShortText}" />
+				</uxap:snappedContent>
+
+				<uxap:actions>
+					<HBox binding="{appView>/uiState/actionButtonsInfo/endColumn}">
+						<OverflowToolbarButton type="Transparent" icon="sap-icon://full-screen" tooltip="Enter Full Screen Mode" visible="{= !!${appView>}}" binding="{appView>fullScreen}" press="toggleFullScreen" />
+						<OverflowToolbarButton type="Transparent" icon="sap-icon://exit-full-screen" tooltip="Exit Full Screen Mode" visible="{= !!${appView>}}" binding="{appView>exitFullScreen}" press="toggleFullScreen" />
+						<OverflowToolbarButton type="Transparent" icon="sap-icon://decline" tooltip="{i18n>tooltipClose}" visible="{= !!${appView>}}" binding="{appView>closeColumn}" press="onCloseItemPress" />
+					</HBox>
+				</uxap:actions>
+			</uxap:ObjectPageDynamicHeaderTitle>
+		</uxap:headerTitle>
+
+		<uxap:sections>
+			<uxap:ObjectPageSection title="{i18n>itemSectionTitleBasicInfo}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<form:SimpleForm
+								editable="true"
+								layout="ResponsiveGridLayout"
+								labelSpanXL="4"
+								labelSpanL="4"
+								labelSpanM="12"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="0"
+								emptySpanL="0"
+								emptySpanM="0"
+								emptySpanS="0"
+								columnsXL="3"
+								columnsL="3"
+								columnsM="3"
+								singleContainerFullSize="false" >
+								<form:content>
+									<core:Title text="" />
+									<Label text="{i18n>itemBasicLabelItemCode}" wrapping="true" required="true" />
+									<sf:SmartField id="itemCodeInput" value="{ProductNo}" />
+									<Label text="{i18n>itemBasicLabelItemDescription}" wrapping="true" />
+									<Text text="{ShortText}" />
+									<Label text="{i18n>itemBasicLabelHSCode}" wrapping="true" />
+									<sf:SmartField id="hsCodeInput" value="{HsCode}" />
+									<Label text="{i18n>itemBasicLabelGoodsName}" wrapping="true" />
+									<Text text="{GoodsName}" />
+									<Label text="{i18n>itemBasicLabelGoodsNameLocal}" wrapping="true" />
+									<Text text="{GoodsNameLocal}" />
+									<Label text="{i18n>itemBasicLabelCoO}" wrapping="true" required="{= ${itemView>/detCountry} === 'HK' &amp;&amp; ${itemView>/detBusinessType} === '20' &amp;&amp; ${itemView>/detImportOrExport} === '2'}" />
+									<ActionSelect
+										id="coOSelect"
+										items="{
+											path: '/Zcbs_C_CountryVH',
+											sorter: {
+												path: 'CountryKey',
+												descending: false
+											}
+										}"
+										selectedKey="{Origin}"
+										showSecondaryValues="true"
+										forceSelection="false">
+										<items>
+											<core:ListItem key="{CountryKey}" text="{CountryText}" additionalText="{CountryKey}" />
+										</items>
+									</ActionSelect>
+									<Label text="{i18n>itemBasicLabelHKModel}" wrapping="true" visible="{= ${itemView>/detCountry} === 'HK'}" />
+									<Input value="{HKModel}" visible="{= ${itemView>/detCountry} === 'HK'}" />
+									<Label text="{i18n>itemBasicLabelBrand}" wrapping="true" />
+									<Input value="{Brand}" />
+
+									<core:Title text="" />
+									<Label text="{i18n>itemBasicLabelProductCode}" wrapping="true" />
+									<Input value="{ProductCode}" />
+									<Label text="{i18n>itemBasicLabelProductName}" wrapping="true" />
+									<Input value="{ProductName}" />
+									<Label text="{i18n>itemBasicLabelAmount}" wrapping="true" />
+									<sf:SmartField id="amountInput" value="{
+											path: 'Amount',
+											formatOptions: {
+												showMeasure: false,
+												maxFractionDigits: 2
+											}
+										}" uomEditable="false" innerControlsCreated="onAmountInnerControlsCreated" />
+									<!-- <Text text="{AmountCurrency}" class="sapUiCompSmartFieldUnit">
+										<layoutData>
+											<layout:GridData span="XL2 L2 M2 S2" />
+										</layoutData>
+									</Text> -->
+									<Label text="{i18n>itemBasicLabelUnitPrice}" wrapping="true" />
+									<ObjectNumber number="{
+											path: 'UnitPrice',
+											type: 'sap.ui.model.type.Float'
+										}" unit="{UnitPriceCurrency}" />
+									<Label text="{i18n>itemBasicLabelQuantity}" wrapping="true" required="true" />
+									<sf:SmartField id="qtyInput" value="{
+											path: 'Qty',
+											formatOptions: {
+												showMeasure: false,
+												minFractionDigits: 3,
+												maxFractionDigits: 3
+											}
+										}" innerControlsCreated="onQtyInnerControlsCreated" />
+									<Label text="{i18n>itemBasicLabelBOEQuantity}" wrapping="true" />
+									<sf:SmartField id="boeQtyInput" value="{
+											path: 'BOEQty',
+											formatOptions: {
+												showMeasure: false,
+												minFractionDigits: 3,
+												maxFractionDigits: 3
+											}
+										}" uomEditable="false" uomVisible="false" />
+									<Text text="{BOEUnitExternal}" class="sapUiCompSmartFieldUnit">
+										<layoutData>
+											<layout:GridData span="XL2 L2 M2 S2" />
+										</layoutData>
+									</Text>
+									<Label text="{i18n>itemBasicLabelBOERate}" wrapping="true" />
+									<Text text="{
+											parts: [
+												{path: 'BOERate'}
+											],
+											formatter: '.formatter.percentValue'
+										}" />
+									<Label text="{i18n>itemBasicLabelQuantitySecond}" wrapping="true" visible="{= ${itemView>/detCountry} === 'CN'}" />
+									<ObjectNumber number="{
+											parts: [
+												{path: 'SecondQty'},
+												{path: 'SecondUnit'}
+											],
+											type: 'sap.ui.model.type.Currency',
+											formatOptions: {
+												showMeasure: false
+											}
+										}" unit="{SecondUnit}" visible="{= ${itemView>/detCountry} === 'CN'}" />
+									<Label text="{i18n>itemBasicLabelRateSecond}" wrapping="true" visible="{= ${itemView>/detCountry} === 'CN'}" />
+									<sf:SmartField value="{
+											parts: [
+												{path: 'RateSecond'}
+											],
+											formatOptions: {
+												showMeasure: false
+											}
+										}" contextEditable="false" visible="{= ${itemView>/detCountry} === 'CN'}" />
+									<Label text="{i18n>itemBasicLabelTradeTerms}" wrapping="true" />
+									<ActionSelect
+										id="tradeTermSelect"
+										forceSelection="false"
+										showSecondaryValues="true"
+										selectedKey="{TradeTerms}"
+										items="{
+											path: '/ZcbsHIncotermsSet',
+											sorter: { path: 'Incot', descending: false }
+										}">
+										<items>
+											<core:ListItem key="{Incot}" text="{Incot}" additionalText="{Text1}" />
+										</items>
+									</ActionSelect>
+									<Label text="{i18n>itemBasicLabelDevice}" wrapping="true" visible="{= ${itemView>/detCountry} === 'SA'}" />
+									<Text text="{Device}" visible="{= ${itemView>/detCountry} === 'SA'}" />
+									<Label text="{i18n>itemBasicLabelTaxation}" wrapping="true" visible="{= ${itemView>/detCountry} === 'CN'}" />
+									<Text text="{Taxation}" visible="{= ${itemView>/detCountry} === 'CN'}" />
+
+									<core:Title text="" />
+									<Label text="{i18n>itemBasicLabelNetWeight}" wrapping="true" />
+									<sf:SmartField id="netWeightInput" value="{
+											path: 'NetWeight',
+											formatOptions: {
+												showMeasure: false,
+												minFractionDigits: 3,
+												maxFractionDigits: 3
+											}
+										}" innerControlsCreated="onNetWeightInnerControlsCreated" />
+									<Label text="{i18n>itemPackagingLabelPackageInstruction}" wrapping="true" />
+									<Input value="{PackingInstruction}" />
+									<Label text="{i18n>itemPackagingLabelPackageQty}" wrapping="true" required="{= ${itemView>/detCountry} === 'HK' &amp;&amp; ${itemView>/detBusinessType} === '20' &amp;&amp; ${itemView>/detImportOrExport} === '2'}" />
+									<sf:SmartField id="packageQtyInput" value="{
+											parts: [
+												{path: 'PackageQty'}
+											],
+											formatOptions: {
+												showMeasure: false
+											}
+										}" />
+									<Label text="{i18n>itemPackagingLabelPackageType}" wrapping="true" required="{= ${itemView>/detCountry} === 'HK' &amp;&amp; ${itemView>/detBusinessType} === '20' &amp;&amp; ${itemView>/detImportOrExport} === '2'}" />
+									<ActionSelect
+										id="packageTypeSelect"
+										forceSelection="false"
+										selectedKey="{PackageType}"
+										items="{
+											path: '/ZCBS_C_DMTEXT',
+											sorter: { path: 'ValueKey', descending: false },
+											filters: [
+												{ path : 'DomainName', operator : 'EQ', value1 : 'ZCBS_DM_BOX_MATERIAL' }
+											]
+										}">
+										<core:Item key="{DomainValue}" text="{ShortText}" />
+									</ActionSelect>
+									<Label text="{i18n>itemBasicLabelLineContractNo}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+									<Input value="{LineConTractNo}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+									<Label text="{i18n>itemBasicLabelRevision}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+									<Input value="{Revision}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+									<Label text="{i18n>itemBasicLabelContractVersion}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+									<Input value="{ContractVersion}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+									<Label text="{i18n>itemBasicLabelLinePLNo}" wrapping="true" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+									<Input value="{LinePLNo}" visible="{= ${itemView>/detCountry} !== 'HK'}" />
+									<Label text="{i18n>itemBasicLabelRemarks}" wrapping="true" />
+									<TextArea value="{Remarks}" rows="4" />
+								</form:content>
+							</form:SimpleForm>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<uxap:ObjectPageSection title="{i18n>itemSectionTitlePartnerInfo}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<st:SmartTable
+								id="partnersSmartTable"
+								entitySet="ZCBS_C_DETBPI"
+								enableAutoBinding="true"
+								tableBindingPath="to_BPI"
+								tableType="Table"
+								useExportToExcel="false"
+								useVariantManagement="false"
+								useTablePersonalisation="true"
+								showTablePersonalisation="false"
+								showRowCount="true"
+								persistencyKey="huawei.cbs.det004.Item.Partner.Table"
+								requestAtLeastFields="ParObjectTypeDesc,ParNumber,ParName,Address,ParObjectType,ParID,ParGUID,ItemID">
+
+								<st:customToolbar>
+									<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+										<content>
+											<ToolbarSpacer />
+											<OverflowToolbarButton text="{i18n>buttonTextAdd}" type="Transparent" icon="sap-icon://add" iconFirst="true" enabled="true" visible="{= ${itemView>/editable} === true &amp;&amp; ${uiView>/DET_MGMT_I_PARTNER_ADD} === 'Y'}" iconDensityAware="false" press="onPartnerAdd" />
+											<OverflowToolbarButton text="{i18n>buttonTextDelete}" type="Transparent" icon="sap-icon://delete" iconFirst="true" enabled="{= ${itemView>/partnerSelected}}" visible="{= ${itemView>/editable} === true &amp;&amp; ${uiView>/DET_MGMT_I_PARTNER_DELETE} === 'Y'}" iconDensityAware="false" press="onPartnerDelete" />
+										</content>
+									</OverflowToolbar>
+								</st:customToolbar>
+
+								<!-- layout data used to make the table growing but the filter bar fixed -->
+								<st:layoutData>
+									<FlexItemData growFactor="1" baseSize="0%" />
+								</st:layoutData>
+
+								<table:Table
+									id="partnersList"
+									rows="{to_BPI}"
+									selectionMode="MultiToggle"
+									showNoData="false"
+									visibleRowCount="5"
+									enableSelectAll="true"
+									rowSelectionChange="onPartnerSelectionChange"
+									threshold="5"
+									enableBusyIndicator="true"
+									ariaLabelledBy="title">
+
+									<table:noData>
+										<BusyIndicator class="sapUiMediumMargin" />
+									</table:noData>
+
+									<table:columns>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETBPIType/ParObjectTypeDesc/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETBPIType/ParObjectTypeDesc/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ParObjectTypeDesc","leadingProperty":"ParObjectTypeDesc","filterProperty":"ParObjectTypeDesc","sortProperty":"ParObjectTypeDesc"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETBPIType/ParObjectTypeDesc/@sap:label}" />
+											<table:template>
+												<Text text="{ParObjectTypeDesc}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETBPIType/ParNumber/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETBPIType/ParNumber/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ParNumber","leadingProperty":"ParNumber","filterProperty":"ParNumber","sortProperty":"ParNumber"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETBPIType/ParNumber/@sap:label}" />
+											<table:template>
+												<Text text="{ParNumber}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETBPIType/ParName/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETBPIType/ParName/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ParName","leadingProperty":"ParName","filterProperty":"ParName","sortProperty":"ParName"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETBPIType/ParName/@sap:label}" />
+											<table:template>
+												<Text text="{ParName}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin" width="{= ${/#ZCBS_C_DETBPIType/Address/@maxLength} >= 50 ? '15rem' : (${/#ZCBS_C_DETBPIType/Address/@maxLength} > 9 ? '10rem' : '5rem')}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Address","leadingProperty":"Address","filterProperty":"Address","sortProperty":"Address"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETBPIType/Address/@sap:label}" />
+											<table:template>
+												<Text text="{Address}" />
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</st:SmartTable>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<uxap:ObjectPageSection title="{i18n>itemSectionTitleCustomsValue}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection title="Tax">
+						<uxap:blocks>
+							<st:SmartTable
+								id="taxCostSmartTable"
+								entitySet="ZCBS_C_detCostI"
+								enableAutoBinding="true"
+								tableBindingPath="to_COSTI"
+								tableType="Table"
+								useExportToExcel="false"
+								useVariantManagement="false"
+								useTablePersonalisation="true"
+								showTablePersonalisation="false"
+								showRowCount="true"
+								beforeRebindTable="onBeforeRebindTaxTable"
+								persistencyKey="huawei.cbs.det004.Item.Cost.Tax.Table"
+								requestAtLeastFields="Description,Unit_Price,Quantity,SystemAmount,Currency,Guid_Legculc,ItemID">
+
+								<!-- layout data used to make the table growing but the filter bar fixed -->
+								<st:layoutData>
+									<FlexItemData growFactor="1" baseSize="0%" />
+								</st:layoutData>
+
+								<table:Table
+									id="taxCostsList"
+									rows="{to_COSTI}"
+									selectionMode="None"
+									showNoData="false"
+									visibleRowCount="5"
+									enableSelectAll="true"
+									rowSelectionChange="onPartnerSelectionChange"
+									threshold="5"
+									enableBusyIndicator="true"
+									ariaLabelledBy="title">
+									<table:columns>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Description","leadingProperty":"Description","filterProperty":"Description","sortProperty":"Description"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostIType/Description/@sap:label}" />
+											<table:template>
+												<Text text="{Description}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Unit_Price","leadingProperty":"Unit_Price","filterProperty":"Unit_Price","sortProperty":"Unit_Price"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostIType/Unit_Price/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'Unit_Price'},
+															{path: 'Currency'}
+														],
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false
+														}
+													}"
+													unit="{Currency}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Quantity","leadingProperty":"Quantity","filterProperty":"Quantity","sortProperty":"Quantity"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostIType/Quantity/@sap:label}" />
+											<table:template>
+												<Text text="{
+														path: 'Quantity',
+														type: 'sap.ui.model.type.Float',
+														formatOptions: {
+															showMeasure: false
+														}
+													}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"SystemAmount","leadingProperty":"SystemAmount","additionalProperty":"Currency","filterProperty":"SystemAmount","sortProperty":"SystemAmount"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostIType/SystemAmount/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'SystemAmount'},
+															{path: 'Currency'}
+														],
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false
+														}
+													}"
+													unit="{Currency}" />
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</st:SmartTable>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+
+					<uxap:ObjectPageSubSection title="Fee">
+						<uxap:blocks>
+							<st:SmartTable
+								id="feeCostSmartTable"
+								entitySet="ZCBS_C_detCostI"
+								enableAutoBinding="true"
+								tableBindingPath="to_COSTI"
+								tableType="Table"
+								useExportToExcel="false"
+								useVariantManagement="false"
+								useTablePersonalisation="true"
+								showTablePersonalisation="false"
+								showRowCount="true"
+								beforeRebindTable="onBeforeRebindFeeTable"
+								persistencyKey="huawei.cbs.det004.Item.Cost.Fee.Table"
+								requestAtLeastFields="Description,Unit_Price,Quantity,SystemAmount,Currency,Guid_Legculc,ItemID">
+
+								<!-- layout data used to make the table growing but the filter bar fixed -->
+								<st:layoutData>
+									<FlexItemData growFactor="1" baseSize="0%" />
+								</st:layoutData>
+
+								<table:Table
+									id="feeCostsList"
+									rows="{to_COSTI}"
+									selectionMode="None"
+									showNoData="false"
+									visibleRowCount="5"
+									enableSelectAll="true"
+									rowSelectionChange="onPartnerSelectionChange"
+									threshold="5"
+									enableBusyIndicator="true"
+									ariaLabelledBy="title">
+									<table:columns>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Description","leadingProperty":"Description","filterProperty":"Description","sortProperty":"Description"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostIType/Description/@sap:label}" />
+											<table:template>
+												<Text text="{Description}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"SystemAmount","leadingProperty":"SystemAmount","additionalProperty":"Currency","filterProperty":"SystemAmount","sortProperty":"SystemAmount"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_detCostIType/SystemAmount/@sap:label}" />
+											<table:template>
+												<ObjectNumber number="{
+														parts: [
+															{path: 'SystemAmount'},
+															{path: 'Currency'}
+														],
+														type: 'sap.ui.model.type.Currency',
+														formatOptions: {
+															showMeasure: false
+														}
+													}"
+													unit="{Currency}" />
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</st:SmartTable>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<uxap:ObjectPageSection title="{i18n>itemSectionTitleAuthorities}" visible="{= ${Country} === 'CN'}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<st:SmartTable
+								id="authoritiesSmartTable"
+								entitySet="ZCBS_C_DETAUTHI"
+								enableAutoBinding="true"
+								tableBindingPath="to_DETAUTHI"
+								tableType="Table"
+								useExportToExcel="false"
+								useVariantManagement="false"
+								useTablePersonalisation="true"
+								showTablePersonalisation="false"
+								showRowCount="true"
+								persistencyKey="huawei.cbs.det004.Item.Authority.Table"
+								requestAtLeastFields="Specification,Value,Guid_Ctsnum,Guid_Auth">
+
+								<st:customToolbar>
+									<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+										<content>
+											<ToolbarSpacer />
+											<OverflowToolbarButton text="{i18n>buttonTextAdd}" type="Transparent" icon="sap-icon://add" iconFirst="true" enabled="true" visible="{= ${itemView>/editable} === true}" iconDensityAware="false" press="onAuthorityAdd" />
+											<OverflowToolbarButton text="{i18n>buttonTextDelete}" type="Transparent" icon="sap-icon://delete" iconFirst="true" enabled="{= ${itemView>/authoritySelected}}" visible="{= ${itemView>/editable} === true}" iconDensityAware="false" press="onAuthorityDelete" />
+										</content>
+									</OverflowToolbar>
+								</st:customToolbar>
+
+								<table:Table
+									id="authoritiesList"
+									rows="{to_DETAUTHI}"
+									selectionMode="MultiToggle"
+									showNoData="false"
+									visibleRowCount="5"
+									enableSelectAll="true"
+									rowSelectionChange="onAuthoritySelectionChange"
+									threshold="5"
+									enableBusyIndicator="true"
+									ariaLabelledBy="title">
+									<table:columns>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Specification","leadingProperty":"Specification","filterProperty":"Specification","sortProperty":"Specification"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETAUTHIType/Specification/@sap:label}" />
+											<table:template>
+												<Text text="{Specification}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Value","leadingProperty":"Value","filterProperty":"Value","sortProperty":"Value"}' />
+											</table:customData>
+											<Label text="{/#ZCBS_C_DETAUTHIType/Value/@sap:label}" />
+											<table:template>
+												<Text text="{Value}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Center" width="4rem" visible="{itemView>/editable}">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Guid_Auth","leadingProperty":"Guid_Auth","filterProperty":"Guid_Auth","sortProperty":"Guid_Auth"}' />
+											</table:customData>
+											<Label text="" />
+											<table:template>
+												<table:RowAction>
+													<table:RowActionItem icon="sap-icon://edit" text="Edit" press="onAuthorityEdit" />
+												</table:RowAction>
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</st:SmartTable>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<uxap:ObjectPageSection title="{i18n>itemSectionTitleLegalControl}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<st:SmartTable
+								id="licensesSmartTable"
+								entitySet="to_ItemToLicense"
+								enableAutoBinding="true"
+								tableBindingPath="to_ItemToLicense"
+								tableType="Table"
+								useExportToExcel="false"
+								useVariantManagement="false"
+								useTablePersonalisation="true"
+								showTablePersonalisation="false"
+								showRowCount="true"
+								persistencyKey="huawei.cbs.det004.Item.License.Table"
+								requestAtLeastFields="ExternalLicenseNumber,CitcInNumber,CitcOutNumber,ValidDate,ExpiryDate,Kad,HsCode,AvailableQuantity,ConsumedQuantity,Device">
+
+								<!-- layout data used to make the table growing but the filter bar fixed -->
+								<st:layoutData>
+									<FlexItemData growFactor="1" baseSize="0%" />
+								</st:layoutData>
+
+								<table:Table
+									id="licensesList"
+									rows="{to_ItemToLicense}"
+									selectionMode="None"
+									showNoData="false"
+									visibleRowCount="5"
+									enableSelectAll="true"
+									threshold="5"
+									enableBusyIndicator="true"
+									ariaLabelledBy="title">
+									<table:columns>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ExternalLicenseNumber","columnIndex":"1","leadingProperty":["ExternalLicenseNumber","LicenseId"],"filterProperty":"ExternalLicenseNumber","sortProperty":"ExternalLicenseNumber"}' />
+											</table:customData>
+											<Label text="{/#Zcbs_C_LicenseDocItemToLicenseType/ExternalLicenseNumber/@sap:label}" />
+											<table:template>
+												<Text text="{ExternalLicenseNumber}" app:mydata="{LicenseId}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"CitcInNumber","columnIndex":"2","leadingProperty":"CitcInNumber","filterProperty":"CitcInNumber","sortProperty":"CitcInNumber"}' />
+											</table:customData>
+											<Label text="{/#Zcbs_C_LicenseDocItemToLicenseType/CitcInNumber/@sap:label}" />
+											<table:template>
+												<Text text="{CitcInNumber}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"CitcOutNumber","columnIndex":"3","leadingProperty":"CitcOutNumber","filterProperty":"CitcOutNumber","sortProperty":"CitcOutNumber"}' />
+											</table:customData>
+											<Label text="{/#Zcbs_C_LicenseDocItemToLicenseType/CitcOutNumber/@sap:label}" />
+											<table:template>
+												<Text text="{CitcOutNumber}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ValidDate","columnIndex":"4","leadingProperty":"ValidDate","filterProperty":"ValidDate","sortProperty":"ValidDate"}' />
+											</table:customData>
+											<Label text="{/#Zcbs_C_LicenseDocItemToLicenseType/ValidDate/@sap:label}" />
+											<table:template>
+												<Text text="{
+														path: 'ValidDate',
+														type: 'sap.ui.model.type.Date',
+														formatOptions: {
+															style: 'medium'
+														}
+													}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ExpiryDate","columnIndex":"5","leadingProperty":"ExpiryDate","filterProperty":"ExpiryDate","sortProperty":"ExpiryDate"}' />
+											</table:customData>
+											<Label text="{/#Zcbs_C_LicenseDocItemToLicenseType/ExpiryDate/@sap:label}" />
+											<table:template>
+												<Text text="{
+														path: 'ExpiryDate',
+														type: 'sap.ui.model.type.Date',
+														formatOptions: {
+															style: 'medium'
+														}
+													}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Kad","columnIndex":"6","leadingProperty":"Kad","filterProperty":"Kad","sortProperty":"Kad"}' />
+											</table:customData>
+											<Label text="{/#Zcbs_C_LicenseDocItemToLicenseType/Kad/@sap:label}" />
+											<table:template>
+												<Text text="{Kad}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"HsCode","columnIndex":"7","leadingProperty":"HsCode","filterProperty":"HsCode","sortProperty":"HsCode"}' />
+											</table:customData>
+											<Label text="{/#Zcbs_C_LicenseDocItemToLicenseType/HsCode/@sap:label}" />
+											<table:template>
+												<Text text="{HsCode}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"AvailableQuantity","columnIndex":"8","leadingProperty":"AvailableQuantity","filterProperty":"AvailableQuantity","sortProperty":"AvailableQuantity"}' />
+											</table:customData>
+											<Label text="{/#Zcbs_C_LicenseDocItemToLicenseType/AvailableQuantity/@sap:label}" />
+											<table:template>
+												<Text text="{
+														path: 'AvailableQuantity',
+														type: 'sap.ui.model.type.Float',
+														formatOptions: {
+															showMeasure: false
+														}
+													}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"ConsumedQuantity","columnIndex":"9","leadingProperty":"ConsumedQuantity","filterProperty":"ConsumedQuantity","sortProperty":"ConsumedQuantity"}' />
+											</table:customData>
+											<Label text="{/#Zcbs_C_LicenseDocItemToLicenseType/ConsumedQuantity/@sap:label}" />
+											<table:template>
+												<Text text="{
+														path: 'ConsumedQuantity',
+														type: 'sap.ui.model.type.Float',
+														formatOptions: {
+															showMeasure: false
+														}
+													}" />
+											</table:template>
+										</table:Column>
+										<table:Column hAlign="Begin">
+											<table:customData>
+												<core:CustomData key="p13nData" value='\{"columnKey":"Device","columnIndex":"10","leadingProperty":"Device","filterProperty":"Device","sortProperty":"Device"}' />
+											</table:customData>
+											<Label text="{/#Zcbs_C_LicenseDocItemToLicenseType/Device/@sap:label}" />
+											<table:template>
+												<Text text="{Device}" />
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</st:SmartTable>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		</uxap:sections>
+
+		<uxap:footer>
+			<OverflowToolbar>
+				<Button icon="sap-icon://alert" text="{=${message>/}.length}" visible="{=${message>/}.length > 0}" type="Emphasized" press="onMessagesButtonPress"/>
+				<ToolbarSpacer />
+				<Button text="{i18n>buttonTextSave}" type="Emphasized" press="onSave" tooltip="{i18n>buttonTextSave}" visible="{= ${itemView>/editable} === true &amp;&amp; ${uiView>/DET_MGMT_D_ITEM_ADD} === 'Y'}" />
+				<Button text="{i18n>buttonTextCancel}" type="Reject" press="onCancel" tooltip="{i18n>buttonTextCancel}" visible="{= ${itemView>/editable} === true &amp;&amp; ${uiView>/DET_MGMT_D_ITEM_ADD} === 'Y'}" />
+			</OverflowToolbar>
+		</uxap:footer>
+	</uxap:ObjectPageLayout>
+</mvc:View>
