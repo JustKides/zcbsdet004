@@ -1,0 +1,236 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"id": "huawei.cbs.det004",
+		"type": "application",
+		"resources": "resources.json",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"dataSources": {
+			"mainService": {
+				"uri": "/sap/opu/odata/sap/ZCBS_DET_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml",
+					"annotations": [ "annotation0" ]
+				}
+			},
+			"uiService": {
+				"uri": "/sap/opu/odata/sap/ZCBS_UI_CONTROL_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata_ui.xml"
+				}
+			},
+			"annotation0": {
+				"type": "ODataAnnotation",
+				"uri": "annotations/annotation0.xml",
+				"settings": {
+					"localUri": "annotations/annotation0.xml"
+				}
+			},
+			"docTypes": {
+				"uri": "model/docTypes.json",
+				"type": "JSON"
+			},
+			"selectOptions": {
+				"uri": "model/selectOptions.json",
+				"type": "JSON"
+			},
+			"hkCompanies": {
+				"uri": "model/hkCompanies.json",
+				"type": "JSON"
+			}
+		},
+		"sourceTemplate": {
+			"id": "sap.ui.ui5-template-plugin.2masterdetail",
+			"version": "1.38.3"
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "sap-icon://detail-view",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"fullWidth": true
+	},
+	"sap.ui5": {
+		"handleValidation": true,
+		"rootView": {
+			"viewName": "huawei.cbs.det004.view.App",
+			"type": "XML",
+			"async": true,
+			"id": "app"
+		},
+		"dependencies": {
+			"minUI5Version": "1.52.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.ui.layout": {},
+				"sap.f": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "huawei.cbs.det004.i18n.i18n"
+				}
+			},
+			"docTypes": {
+				"type": "sap.ui.model.json.JSONModel",
+				"dataSource": "docTypes"
+			},
+			"selectOptions": {
+				"type": "sap.ui.model.json.JSONModel",
+				"dataSource": "selectOptions"
+			},
+			"hkCompanies": {
+				"type": "sap.ui.model.json.JSONModel",
+				"dataSource": "hkCompanies"
+			},
+			"": {
+				"dataSource": "mainService",
+				"preload": true,
+				"settings": {
+					"defaultBindingMode": "TwoWay"
+				}
+			},
+			"ui": {
+				"dataSource": "uiService",
+				"preload": true,
+				"settings": {
+					"defaultBindingMode": "TwoWay"
+				}
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.f.routing.Router",
+				"viewType": "XML",
+				"viewPath": "huawei.cbs.det004.view",
+				"controlId": "app",
+				"controlAggregation": "beginColumnPages",
+				"bypassed": {
+					"target": "notFound"
+				},
+				"async": true
+			},
+			"routes": [{
+				"pattern": "",
+				"name": "role",
+				"target": "role",
+				"layout": "OneColumn"
+			}, {
+				"pattern": "{BUSTYPE}/{INDEI}",
+				"name": "master",
+				"target": "master",
+				"layout": "OneColumn"
+			}, {
+				"pattern": "{BUSTYPE}/{INDEI}/d/{detailId}:?query:",
+				"name": "detail",
+				"target": ["master", "detail"],
+				"layout": "MidColumnFullScreen"
+			}, {
+				"pattern": "{BUSTYPE}/{INDEI}/d/{detailId}/i/{itemId}:?query:",
+				"name": "item",
+				"target": ["master", "detail", "item"],
+				"layout": "EndColumnFullScreen"
+			}, {
+				"pattern": "{BUSTYPE}/{INDEI}/c/{companyBpId}:?query:",
+				"name": "detailCreate",
+				"target": ["master", "detailCreate"],
+				"layout": "MidColumnFullScreen"
+			}, {
+				"pattern": "{BUSTYPE}/{INDEI}/c/create:?query:",
+				"name": "detailItemCreate",
+				"target": ["master", "detailCreate", "itemCreate"],
+				"layout": "EndColumnFullScreen"
+			}, {
+				"pattern": "{BUSTYPE}/{INDEI}/d/{detailId}/c:?query:",
+				"name": "itemCreate",
+				"target": ["master", "detail", "itemCreate"],
+				"layout": "EndColumnFullScreen"
+			}],
+			"targets": {
+				"role": {
+					"viewName": "Role",
+					"viewId": "role",
+					"viewLevel": 1,
+					"controlAggregation": "beginColumnPages"
+				},
+				"master": {
+					"viewName": "Master",
+					"viewId": "master",
+					"viewLevel": 1,
+					"controlAggregation": "beginColumnPages"
+				},
+				"detail": {
+					"viewName": "Detail",
+					"viewId": "detail",
+					"viewLevel": 2,
+					"controlAggregation": "midColumnPages"
+				},
+				"detailCreate": {
+					"viewName": "DetailCreate",
+					"viewId": "detailCreate",
+					"viewLevel": 2,
+					"controlAggregation": "midColumnPages"
+				},
+				"item": {
+					"viewName": "Item",
+					"viewId": "item",
+					"viewLevel": 3,
+					"controlAggregation": "endColumnPages"
+				},
+				"itemCreate": {
+					"viewName": "ItemCreate",
+					"viewId": "itemCreate",
+					"viewLevel": 3,
+					"controlAggregation": "endColumnPages"
+				},
+				"notFound": {
+					"viewName": "NotFound",
+					"viewId": "notFound",
+					"controlAggregation": "beginColumnPages"
+				},
+				"detailNotFound": {
+					"viewName": "DetailNotFound",
+					"viewId": "detailNotFound",
+					"controlAggregation": "midColumnPages"
+				},
+				"itemNotFound": {
+					"viewName": "ItemNotFound",
+					"viewId": "itemNotFound",
+					"controlAggregation": "endColumnPages"
+				}
+			}
+		}
+	}
+}
